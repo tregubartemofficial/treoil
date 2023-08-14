@@ -11,11 +11,11 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { products } from "../../products";
 import SortIcon from "@mui/icons-material/Sort";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
-import Filter from "../Filter";
-import LazyImage from "../LazyImage";
+import Filter from "../components/Filter";
+import LazyImage from "../components/LazyImage";
+import { products } from "../products";
 
 const Assortment = () => {
   const [openStates, setOpenStates] = useState(

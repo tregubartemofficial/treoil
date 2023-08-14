@@ -1,7 +1,7 @@
-import Footer from "./Footer";
-import Header from "./components/Header";
-import Main from './components/pages/Main'
-import Assortment from "./components/pages/Assortment";
+import Main from './pages/Main'
+import Assortment from "./pages/Assortment";
+import Header from './common/Header'
+import Footer from "./common/Footer";
 import { Route, Routes } from "react-router";
 import { CssBaseline, ThemeProvider, createTheme } from "@mui/material";
 
