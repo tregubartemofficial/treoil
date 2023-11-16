@@ -2,6 +2,8 @@
 
 Welcome to the TREOIL Business React App repository! We are specializing in the production and sale of high-quality oils for machines and industrial processes.
 
+Visit our website: [treoil.vn.ua](https://treoil.vn.ua/)
+
 ## Table of Contents
 
 - [Introduction](#introduction)
@@ -46,8 +48,6 @@ This project is built using the following technologies:
 - [React Router](https://reactrouter.com/): A routing library for React applications, enabling navigation and dynamic rendering of components based on the URL.
 
 --- 
-
-Visit our website: [treoil.vn.ua](https://treoil.vn.ua/)
 
 Best regards,
 [Artem Trehub]

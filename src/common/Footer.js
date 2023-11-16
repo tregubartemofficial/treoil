@@ -4,7 +4,6 @@ import EmailIcon from "@mui/icons-material/Email";
 import PhoneIcon from "@mui/icons-material/Phone";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { grey } from "@mui/material/colors";
-import { Link } from "react-router-dom";
 import { Instagram } from "@mui/icons-material";
 import { motion } from "framer-motion";
 
@@ -29,7 +28,7 @@ const Footer = () => {
               Про нас
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              Наша фірма знаходиться у Вінниці та займається продажем і
+              Наша фірма знаходиться у Вінниці та займається з 2021 продажем і
               поставками олив, мастил, технічних рідин, емульсолів для токарних
               робіт компаній: Texaco, Unil, Prista Oil, Orlen Oil.
             </Typography>
@@ -69,13 +68,13 @@ const Footer = () => {
             <Typography variant="h6" color="text.primary" gutterBottom>
               Слідкуйте за нами
             </Typography>
-              <Link
-                href="https://www.instagram.com/"
-                color="inherit"
-                sx={{ pl: 1, pr: 1 }}
-              >
-                <Instagram />
-              </Link>
+            <a
+              href="https://www.instagram.com/treoilvin"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Instagram />
+            </a>
           </Grid>
         </Grid>
       </Container>

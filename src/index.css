@@ -16,3 +16,12 @@ a {
   color: inherit; 
   cursor: pointer; 
 }
+
+article {
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+}
+
+article > div {
+  scroll-snap-align: center;
+}

@@ -3,16 +3,17 @@ import HeroSection from "../components/HeroSection";
 import { Avatar, Box, Container, Stack, Typography } from "@mui/material";
 
 const Main = () => {
+  
   return (
     <>
       <HeroSection />
-      <Container component="article">
-        <Stack sx={{ my: 30 }}>
+      <Container component="article" sx={{ py: 30 }}>
+        <Stack>
           <Typography variant="h4" sx={{ fontWeight: 600 }}>
             Про нас
           </Typography>
-          <Typography letterSpacing={"0.05938em"}>
-            Наша фірма знаходиться у Вінниці та займається продажем і поставками
+          <Typography letterSpacing={"0.06em"}>
+            Наша фірма знаходиться у Вінниці та займається з 2021 продажем і поставками
             олив, мастил, технічних рідин, емульсолів для токарних робіт
             компаній: Texaco, Unil, Prista Oil, Orlen Oil.
           </Typography>
@@ -73,7 +74,7 @@ const Main = () => {
             <Typography variant="h4" sx={{ fontWeight: 600 }}>
               Доставка
             </Typography>
-            <Typography letterSpacing={"0.05938em"}>
+            <Typography letterSpacing={"0.06em"}>
               Поставку товару можемо здійснювати безпосередньо на об'єкт. Масло
               заливається в каністри по 4, 10, 20 літрів. Бочки 210 літрів і
               ємності на 1000 літрів. При необхідності можемо приїхати для

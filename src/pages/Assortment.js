@@ -11,23 +11,17 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import SortIcon from "@mui/icons-material/Sort";
-import { ExpandLess, ExpandMore } from "@mui/icons-material";
+import InfoIcon from "@mui/icons-material/Info";
 import Filter from "../components/Filter";
 import LazyImage from "../components/LazyImage";
 import { products } from "../products";
+import { Link } from "react-router-dom";
 
 const Assortment = () => {
-  const [openStates, setOpenStates] = useState(
-    Array(products.length).fill(false)
-  );
+
   const [filteredProducts, setFilteredProducts] = useState(products);
 
-  const handleToggle = (index) => {
-    const newOpenStates = [...openStates];
-    newOpenStates[index] = !newOpenStates[index];
-    setOpenStates(newOpenStates);
-  };
+
 
   return (
     <Container component="article">
@@ -41,21 +35,20 @@ const Assortment = () => {
           container
           sx={{
             marginTop: { xs: 0, md: 0 },
+            justifyContent: 'center',
           }}
           spacing={{ xs: 2, md: 3 }}
           columns={{ sm: 1, md: 2 }}
           component="ul"
         >
           {filteredProducts.map((product, index) => {
-            const isOpen = openStates[index];
             return (
               <Grid
                 item
                 sm={1}
-                md={1}
+                sx={{ml: '-40px'}}
                 component={ListItem}
                 key={product.title}
-                justifyContent="flex-start"
               >
                 <ListItemAvatar>
                   <LazyImage
@@ -67,14 +60,13 @@ const Assortment = () => {
                 </ListItemAvatar>
                 <Stack>
                   <ListItemText primary={product.title} />
-                  <ListItemButton onClick={() => handleToggle(index)}>
+                  <ListItemButton component={Link} to={`/assortment/${product.title}`}>
                     <ListItemIcon>
-                      <SortIcon />
+                      <InfoIcon />
                     </ListItemIcon>
-                    <ListItemText primary="Опис" />
-                    {isOpen ? <ExpandLess /> : <ExpandMore />}
+                    <ListItemText primary="Дізнатись більше" />
                   </ListItemButton>
-                  <Collapse in={isOpen} timeout="auto" unmountOnExit>
+                  <Collapse timeout="auto" unmountOnExit>
                     {product.description.split("\n").map((paragraph, i) => (
                       <ListItemText key={i} primary={paragraph} />
                     ))}
