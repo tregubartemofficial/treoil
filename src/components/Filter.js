@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   Card,
   CardActions,
@@ -13,32 +13,32 @@ import {
   ListItemButton,
   ListItemText,
   ListItemIcon,
-} from "@mui/material";
-import { ExpandLess, ExpandMore } from "@mui/icons-material";
-import FilterAltIcon from "@mui/icons-material/FilterAlt";
-import { useTheme } from "@mui/material/styles";
-import useMediaQuery from "@mui/material/useMediaQuery";
+} from '@mui/material';
+import { ExpandLess, ExpandMore } from '@mui/icons-material';
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 const filterOptions = {
-  brand: ["Prista", "Unil", "Orlen"],
-  types: ["motor", "gear", "antifreeze", "production"],
+  brand: ['Prista', 'Unil', 'Orlen'],
+  types: ['motor', 'gear', 'antifreeze', 'production'],
   viscosity: [
-    "0W-30",
-    "5W-30",
-    "5W-40",
-    "5W-50",
-    "10W-40",
-    "15W-40",
-    "75W-80",
-    "75W-90",
-    "80W-90",
-    "85W-90",
-    "85W-140",
+    '0W-30',
+    '5W-30',
+    '5W-40',
+    '5W-50',
+    '10W-40',
+    '15W-40',
+    '75W-80',
+    '75W-90',
+    '80W-90',
+    '85W-90',
+    '85W-140',
   ],
-  motor: "Моторна",
-  gear: "Трансмісійна",
-  antifreeze: "Антифриз",
-  production: "Промислова",
+  motor: 'Моторна',
+  gear: 'Трансмісійна',
+  antifreeze: 'Антифриз',
+  production: 'Промислова',
 };
 
 const Filter = React.memo(({ products, setFilteredProducts }) => {
@@ -54,7 +54,7 @@ const Filter = React.memo(({ products, setFilteredProducts }) => {
     viscosity: [],
   });
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const handleOpen = useCallback((id) => {
     setOpen((prevState) => ({
@@ -89,7 +89,7 @@ const Filter = React.memo(({ products, setFilteredProducts }) => {
       const typeFilter =
         filters.type.length === 0 || filters.type.includes(product.type);
 
-      const viscosities = product.viscosity.split(" ");
+      const viscosities = product.viscosity.split(' ');
       const viscosityFilter =
         filters.viscosity.length === 0 ||
         viscosities.some((value) => filters.viscosity.includes(value));
@@ -101,21 +101,21 @@ const Filter = React.memo(({ products, setFilteredProducts }) => {
 
   const layout = (
     <Card sx={{ minWidth: 150, marginTop: 3 }}>
-      <CardActions sx={{ width: "100%" }}>
+      <CardActions sx={{ width: '100%' }}>
         <FormControl>
-          <Stack direction="row" onClick={() => handleOpen("brand")}>
-            <FormLabel id="brand">Бренд</FormLabel>
+          <Stack direction='row' onClick={() => handleOpen('brand')}>
+            <FormLabel id='brand'>Бренд</FormLabel>
             {open.brand ? <ExpandLess /> : <ExpandMore />}
           </Stack>
-          <Collapse in={open.brand} timeout="auto">
-            <FormGroup aria-labelledby="brand">
+          <Collapse in={open.brand} timeout='auto'>
+            <FormGroup aria-labelledby='brand'>
               {filterOptions.brand.map((brand) => (
                 <FormControlLabel
                   key={brand}
                   control={
                     <Checkbox
                       checked={filters.brand.includes(brand)}
-                      onChange={() => handleFilterChange("brand", brand)}
+                      onChange={() => handleFilterChange('brand', brand)}
                     />
                   }
                   label={brand}
@@ -127,19 +127,19 @@ const Filter = React.memo(({ products, setFilteredProducts }) => {
       </CardActions>
       <CardActions>
         <FormControl>
-          <Stack direction="row" onClick={() => handleOpen("type")}>
-            <FormLabel id="type">Тип оливи</FormLabel>
+          <Stack direction='row' onClick={() => handleOpen('type')}>
+            <FormLabel id='type'>Тип оливи</FormLabel>
             {open.type ? <ExpandLess /> : <ExpandMore />}
           </Stack>
-          <Collapse in={open.type} timeout="auto">
-            <FormGroup aria-labelledby="type">
+          <Collapse in={open.type} timeout='auto'>
+            <FormGroup aria-labelledby='type'>
               {filterOptions.types.map((type) => (
                 <FormControlLabel
                   key={type}
                   control={
                     <Checkbox
                       checked={filters.type.includes(type)}
-                      onChange={() => handleFilterChange("type", type)}
+                      onChange={() => handleFilterChange('type', type)}
                     />
                   }
                   label={filterOptions[type]}
@@ -151,13 +151,13 @@ const Filter = React.memo(({ products, setFilteredProducts }) => {
       </CardActions>
       <CardActions>
         <FormControl>
-          <Stack direction="row" onClick={() => handleOpen("viscosity")}>
-            <FormLabel id="viscosity">В'язкість</FormLabel>
+          <Stack direction='row' onClick={() => handleOpen('viscosity')}>
+            <FormLabel id='viscosity'>В'язкість</FormLabel>
             {open.viscosity ? <ExpandLess /> : <ExpandMore />}
           </Stack>
 
-          <Collapse in={open.viscosity} timeout="auto">
-            <FormGroup aria-labelledby="viscosity">
+          <Collapse in={open.viscosity} timeout='auto'>
+            <FormGroup aria-labelledby='viscosity'>
               {filterOptions.viscosity.map((viscosity) => (
                 <FormControlLabel
                   key={viscosity}
@@ -165,7 +165,7 @@ const Filter = React.memo(({ products, setFilteredProducts }) => {
                     <Checkbox
                       checked={filters.viscosity.includes(viscosity)}
                       onChange={() =>
-                        handleFilterChange("viscosity", viscosity)
+                        handleFilterChange('viscosity', viscosity)
                       }
                     />
                   }
@@ -185,25 +185,25 @@ const Filter = React.memo(({ products, setFilteredProducts }) => {
         <List
           sx={{
             marginBottom: 2,
-            width: "100%",
-            display: { xs: "flex", sm: "none" },
+            width: '100%',
+            display: { xs: 'flex', sm: 'none' },
           }}
         >
           <ListItemButton onClick={() => setOpenFilter(!openFilter)}>
             <ListItemIcon>
               <FilterAltIcon />
             </ListItemIcon>
-            <ListItemText primary="Фільтр" />
+            <ListItemText primary='Фільтр' />
             {openFilter ? <ExpandLess /> : <ExpandMore />}
           </ListItemButton>
           <Collapse
             in={openFilter}
-            timeout="auto"
+            timeout='auto'
             sx={{
-              position: "absolute",
+              position: 'absolute',
               zIndex: 20,
               marginTop: 4,
-              width: "90vw",
+              width: '90vw',
             }}
           >
             {layout}
