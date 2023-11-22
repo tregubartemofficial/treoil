@@ -122,7 +122,7 @@ export const products = [
     photoURL: '/images/prista/ultragear 75W80.jpg',
     description:
       "Високоякісні оливи Prista® Ultragear Synthetic призначені для змащування усіх видів зубчатих передач – циліндричних, спірально-конічних, черв'ячних та гіпоїдних передач моторних транспортних засобів та промислового обладнання, що працюють у дуже складних умовах експлуатації та при високих швидкостях ковзання.",
-    title: 'Prista Ultragear Synthetic 75W-80 / 75W-90',
+    title: 'Prista Ultragear Synthetic 75W-80 75W-90',
     viscosity: '75W-80 75W-90',
     type: 'gear',
     brand: 'Prista',
@@ -144,10 +144,11 @@ export const products = [
     photoURL: '/images/prista/EP.jpg',
     description:
       'Трансмісійні оливи Prista® EP застосовуються у механічних коробках передач автомобілів, картерах задніх мостів та диференціалах, для яких рекомендовані оливи з ЕР властивостями експлуатаційного рівня GL-5 по API.',
-    title: 'Prista EP SAE 80W-90 / 85W-90 / 85W-140',
+    title: 'Prista EP SAE 80W-90 85W-90 85W-140',
     viscosity: '80W-90 85W-90 85W-140',
     type: 'transmission',
     brand: 'Prista',
+    specifications: 'API GL-5 \n ISO 6743/6 ISO-L-CKT \n Volvo STD 1273.10',
   },
   {
     photoURL: '/images/prista/long life.jpg',
@@ -259,8 +260,8 @@ export const products = [
   {
     photoURL: '/images/unil/OPALJET ENERGY 3 5W30.jpg',
     description:
-      'OPALJET ENERGY 3 5W30 - 100% синтетичне масло, спеціально розроблене для сучасних автомобілів, з широким спектром використання. OPALJET ENERGY 3 гарантує ідеальний захист навіть для самих потужних двигунів.',
-    title: 'OPALJET ENERGY 3 5W30/0W30',
+      'OPALJET ENERGY 3 5W30 / 0W30 - 100% синтетичне масло, спеціально розроблене для сучасних автомобілів, з широким спектром використання. OPALJET ENERGY 3 гарантує ідеальний захист навіть для самих потужних двигунів.',
+    title: 'OPALJET ENERGY 3 5W30 0W30',
     viscosity: '5W-30 0W-30',
     type: 'motor',
     brand: 'Unil',
@@ -314,7 +315,7 @@ export const products = [
     photoURL: '/images/unil/GEAR EP 80W85.jpg',
     description:
       'Призначено для коробок передач легкових і вантажних автомобілів, сільськогосподарської техніки, землерийної техніки і автонавантажувачів, яким наказано стандарт API GL4. Також підходить для помірно навантажених передач задніх осей, якщо для них досить протизадирних властивостей API GL4.',
-    title: 'GEAR EP 80W85 / 80W90 / 85W140',
+    title: 'GEAR EP 80W85 80W90 85W140',
     viscosity: '80W-85 80W-90 85W-140',
     type: 'gear',
     brand: 'Unil',

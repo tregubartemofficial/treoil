@@ -17,10 +17,17 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const Product = () => {
   const { pathname } = useLocation();
-  const productPathname = pathname.slice(1).split('/')[1].split('_').join(' ');
+  const productPathname = pathname.split('/')[2].split('_').join(' ');
 
-  const { title, description, type, brand, specifications, viscosity, photoURL } =
-    products.find((product) => product.title === productPathname) || {};
+  const {
+    title,
+    description,
+    type,
+    brand,
+    specifications,
+    viscosity,
+    photoURL,
+  } = products.find((product) => product.title === productPathname) || {};
 
   return (
     <Container>
@@ -39,19 +46,20 @@ const Product = () => {
                 secondary={brand}
               />
             </ListItem>
+            {viscosity && (
             <ListItem>
               <ListItemText
                 primary={<Typography variant='h6'>В'язкість</Typography>}
                 secondary={viscosity}
               />
             </ListItem>
+            )}
             <ListItem>
               <ListItemText
                 primary={<Typography variant='h6'>Тип</Typography>}
                 secondary={type}
               />
             </ListItem>
-
             <ListItem>
               <Accordion
                 disableGutters
