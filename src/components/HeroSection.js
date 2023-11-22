@@ -1,5 +1,5 @@
-import { Stack, Typography } from '@mui/material';
 import React from 'react';
+import { Stack, Typography } from '@mui/material';
 import { motion } from 'framer-motion';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
@@ -26,6 +26,7 @@ const HeroSection = () => {
           exit={{ textShadow: '0px 0px 0px #ffffff' }}
           transition={{
             duration: 1.5,
+            repeat: Infinity,
             repeatType: 'reverse',
           }}
         >
