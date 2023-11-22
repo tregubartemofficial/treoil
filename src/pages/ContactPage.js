@@ -11,7 +11,7 @@ const ContactPage = () => {
             <ListItemText primary='ПН-ПТ' secondary='9:00 - 17:00' />
           </ListItem>
           <ListItem disablePadding={true}>
-            <ListItemText primary='CБ-ПТ' secondary='9:00 - 13:00' />
+            <ListItemText primary='CБ' secondary='9:00 - 13:00' />
           </ListItem>
           <ListItem disablePadding={true}>
             <ListItemText primary='НД' secondary='Вихідний' />

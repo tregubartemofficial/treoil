@@ -9,22 +9,31 @@ const TitleTypography = ({ textAlign = 'start', children }) => (
   </Typography>
 );
 
+const SectionStack = ({ bgcolor = '#fff', children }) => (
+  <Stack
+    alignItems='center'
+    bgcolor={bgcolor}
+    py={15}
+    px={{ xs: 5, md: 15 }}
+  >
+    {children}
+  </Stack>
+);
+
 const MainPage = () => {
   return (
     <>
       <HeroSection />
       <Stack component='article'>
-        <Stack py={15} px={20}>
-          <TitleTypography>
-            Про нас
-          </TitleTypography>
+        <SectionStack >
+          <TitleTypography>Про нас</TitleTypography>
           <Typography letterSpacing={'0.06em'}>
             Наша фірма знаходиться у Вінниці та займається з 2021 року продажем
             і поставками олив, мастил, технічних рідин, емульсолів для токарних
             робіт компаній: Texaco, Unil, Prista Oil, Orlen Oil.
           </Typography>
-        </Stack>
-        <Stack alignItems='center' py={15} px={20}>
+        </SectionStack>
+        <SectionStack>
           <Stack>
             <TitleTypography>Асортимент</TitleTypography>
             <Typography letterSpacing={'0.06em'}>
@@ -72,8 +81,8 @@ const MainPage = () => {
               }}
             />
           </Stack>
-        </Stack>
-        <Stack alignItems='center' py={15} px={20} bgcolor={grey[100]}>
+        </SectionStack>
+        <SectionStack bgcolor={grey[100]}>
           <Stack sx={{ pr: { xs: 0, md: 10 } }}>
             <TitleTypography>Доставка</TitleTypography>
             <Typography letterSpacing={'0.06em'}>
@@ -110,7 +119,7 @@ const MainPage = () => {
               sx={{ height: 70, width: 70 }}
             />
           </Stack>
-        </Stack>
+        </SectionStack>
         <Stack alignItems='center' sx={{ mt: 30, mb: 5 }}>
           <TitleTypography textAlign='center'>Знаходимось</TitleTypography>
           <Box sx={{ width: '90%', height: 300 }}>
