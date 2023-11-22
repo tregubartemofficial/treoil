@@ -24,7 +24,7 @@ const Product = () => {
 
   return (
     <Container>
-      <Stack container spacing={3} sx={{ my: 5 }}>
+      <Stack spacing={3} sx={{ my: 5 }}>
         <img src={photoURL} alt={title} style={{ width: '250px' }} />
         <Typography variant='h5' fontWeight='bold'>
           {title}
