@@ -1,6 +1,6 @@
 import React from 'react';
-import { AppBar, Avatar, Button, Stack, Toolbar } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { AppBar, Button, Stack, Toolbar } from '@mui/material';
+import { Link, useNavigate } from 'react-router-dom';
 
 const headerButtonStyles = {
   color: 'white',
@@ -12,15 +12,19 @@ const headerButtonStyles = {
 };
 
 const Header = () => {
+  const navigate = useNavigate();
   return (
     <AppBar position='static'>
       <Toolbar>
-        <Avatar
-          component={Link}
-          to='/'
-          variant='square'
+        <img
+          onClick={() => navigate('/')}
           src='./logo-white.png'
           alt='logo'
+          width={40}
+          height={40}
+          style={{
+            cursor: 'pointer',
+          }}
         />
         <Stack direction='row' justifyContent='space-around' sx={{ mx: 3 }}>
           <Button

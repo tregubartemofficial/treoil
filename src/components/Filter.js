@@ -18,6 +18,7 @@ import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import { products } from '../products';
 
 const filterOptions = {
   brand: ['Prista', 'Unil', 'Orlen'],
@@ -41,7 +42,7 @@ const filterOptions = {
   production: 'Промислова',
 };
 
-const Filter = React.memo(({ products, setFilteredProducts }) => {
+const Filter = React.memo(({ setFilteredProducts }) => {
   const [open, setOpen] = useState({
     type: true,
     brand: true,
@@ -97,7 +98,7 @@ const Filter = React.memo(({ products, setFilteredProducts }) => {
       return brandFilter && typeFilter && viscosityFilter;
     });
     setFilteredProducts(filteredProducts);
-  }, [products, filters, setFilteredProducts]);
+  }, [filters, setFilteredProducts]);
 
   const layout = (
     <Card sx={{ minWidth: 150, marginTop: 3 }}>

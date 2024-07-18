@@ -17,6 +17,7 @@ import { Link } from 'react-router-dom';
 
 const Catalog = () => {
   const [filteredProducts, setFilteredProducts] = useState(products);
+
   return (
     <Stack
       direction={{ xs: 'column', sm: 'row' }}
@@ -24,7 +25,7 @@ const Catalog = () => {
       alignItems='flex-start'
       component={Container}
     >
-      <Filter products={products} setFilteredProducts={setFilteredProducts} />
+      <Filter setFilteredProducts={setFilteredProducts} />
       <Grid
         container
         sx={{
@@ -35,7 +36,7 @@ const Catalog = () => {
         columns={{ sm: 1, md: 2 }}
         component='ul'
       >
-        {filteredProducts.map((product, index) => {
+        {filteredProducts.map((product) => {
           return (
             <Grid
               item

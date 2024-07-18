@@ -11,13 +11,15 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import { useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { products } from '../products';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { ChevronLeft } from '@mui/icons-material';
 
 const Product = () => {
   const { pathname } = useLocation();
   const productPathname = pathname.split('/')[2].split('_').join(' ');
+  const navigate = useNavigate();
 
   const {
     title,
@@ -31,7 +33,8 @@ const Product = () => {
 
   return (
     <Container>
-      <Stack spacing={3} sx={{ my: 5 }}>
+      <ChevronLeft onClick={() => navigate(-1)} />
+      <Stack spacing={3}>
         <img src={photoURL} alt={title} style={{ width: '250px' }} />
         <Typography variant='h5' fontWeight='bold'>
           {title}
@@ -47,12 +50,12 @@ const Product = () => {
               />
             </ListItem>
             {viscosity && (
-            <ListItem>
-              <ListItemText
-                primary={<Typography variant='h6'>В'язкість</Typography>}
-                secondary={viscosity}
-              />
-            </ListItem>
+              <ListItem>
+                <ListItemText
+                  primary={<Typography variant='h6'>В'язкість</Typography>}
+                  secondary={viscosity}
+                />
+              </ListItem>
             )}
             <ListItem>
               <ListItemText
