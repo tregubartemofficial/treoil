@@ -1,4 +1,12 @@
-import { Box, Container, List, ListItem, ListItemText, Stack, Typography } from '@mui/material';
+import {
+  Box,
+  Container,
+  List,
+  ListItem,
+  ListItemText,
+  Stack,
+  Typography,
+} from '@mui/material';
 
 const ContactPage = () => {
   return (

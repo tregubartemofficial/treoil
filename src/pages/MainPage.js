@@ -129,7 +129,7 @@ const MainPage = () => {
         </SectionStack>
         <Stack alignItems='center' sx={{ mt: 10, mb: 5 }}>
           <TitleTypography textAlign='center'>Знаходимось</TitleTypography>
-          <Stack sx={{ width: '90%', height: 300 }} alignItems='center'>
+          <Stack sx={{ width: '100%', height: 300, mt: 2 }} alignItems='center'>
             <iframe
               title='TREOIL Location Map'
               src='https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d6101.428664284915!2d28.42624796042512!3d49.23700397727064!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x472d5da73e9773dd%3A0xa89b208970bd654a!2z0KLRgNC10L7QudC7!5e0!3m2!1suk!2sua!4v1690721689427!5m2!1suk!2sua'

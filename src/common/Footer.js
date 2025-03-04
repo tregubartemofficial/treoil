@@ -5,7 +5,6 @@ import PhoneIcon from '@mui/icons-material/Phone';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { grey } from '@mui/material/colors';
 import { Instagram } from '@mui/icons-material';
-import { motion } from 'framer-motion';
 
 const Footer = () => {
   return (
@@ -36,12 +35,7 @@ const Footer = () => {
             <Typography variant='h6' color='text.primary' gutterBottom>
               Контакти
             </Typography>
-            <motion.div
-              whileHover={{
-                scale: 1.01,
-                transition: { duration: 0.2 },
-              }}
-            >
+            <div>
               <a
                 href='https://www.google.com/maps/place/%D0%A2%D1%80%D0%B5%D0%BE%D0%B9%D0%BB/@49.2381933,28.4279183,17.28z/data=!4m6!3m5!1s0x472d5da73e9773dd:0xa89b208970bd654a!8m2!3d49.2382312!4d28.4276062!16s%2Fg%2F11p06yr7h5?entry=ttu'
                 target='_blank'
@@ -49,10 +43,18 @@ const Footer = () => {
               >
                 <Stack direction='row' padding={0.2} spacing={0.5}>
                   <LocationOnIcon />
-                  <Typography>Вінниця, Максимовича 10</Typography>
+                  <Typography
+                    sx={{
+                      ':hover': {
+                        textDecoration: 'underline',
+                      },
+                    }}
+                  >
+                    Вінниця, Максимовича 10
+                  </Typography>
                 </Stack>
               </a>
-            </motion.div>
+            </div>
 
             <Stack direction='row' padding={0.2} spacing={0.5}>
               <EmailIcon />
@@ -60,7 +62,9 @@ const Footer = () => {
             </Stack>
             <Stack direction='row' padding={0.2} spacing={0.5}>
               <PhoneIcon />
-              <Typography>0637341169 | 0677230465</Typography>
+              <Typography>
+                (067) 724-04-65 <br /> (093) 203-83-70
+              </Typography>
             </Stack>
           </Grid>
           <Grid item xs={12} sm={4}>
