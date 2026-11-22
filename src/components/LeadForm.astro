@@ -4,36 +4,68 @@ interface Props {
   title?: string;
 }
 const { product = "", title = "Залишити заявку" } = Astro.props;
+
+const label = "text-[15px] font-semibold";
+const note = "text-[13px] font-normal text-muted";
+// user-invalid: native :user-invalid; [.user-invalid-fallback] covers browsers without it.
+const control =
+  "min-h-12 w-full rounded-ctl border border-line-strong bg-white px-3 py-2.5 text-ink user-invalid:border-danger user-invalid:bg-danger-bg [&.user-invalid-fallback]:border-danger [&.user-invalid-fallback]:bg-danger-bg peer";
+const error = "hidden text-sm text-danger peer-user-invalid:block peer-[.user-invalid-fallback]:block";
 ---
 
-<section class="lead-section" id="lead" aria-labelledby="lead-title">
-  <div class="wrap lead-grid">
-    <div class="lead-intro">
-      <h2 id="lead-title" class="section-title">{title}</h2>
+<section class="section-pad bg-soft" id="lead" aria-labelledby="lead-title">
+  <div class="wrap grid grid-cols-[repeat(auto-fit,minmax(min(100%,320px),1fr))] items-start gap-10">
+    <div class="flex flex-col gap-4">
+      <h2 id="lead-title" class="section-title">
+        {title}
+      </h2>
       <p class="lead">
         Підберемо оливу під вашу техніку, підготуємо комерційну пропозицію і відправимо Новою Поштою або привеземо на
         об'єкт. Передзвонимо протягом робочого дня.
       </p>
     </div>
 
-    <form class="lead-form" action="/lead.php" method="post" novalidate={false} data-lead-form>
+    <form
+      class="grid grid-cols-[repeat(auto-fit,minmax(min(100%,220px),1fr))] gap-4 rounded-card border border-line bg-white p-[clamp(20px,3vw,28px)]"
+      action="/lead.php"
+      method="post"
+      data-lead-form
+    >
       <input type="hidden" name="product" value={product} />
       <input type="hidden" name="page" value={Astro.url.pathname} />
-      <div class="hp" aria-hidden="true">
+      <div class="absolute -left-[10000px]" aria-hidden="true">
         <label for="lead-website">Не заповнюйте це поле</label>
         <input id="lead-website" name="website" type="text" tabindex="-1" autocomplete="off" />
       </div>
 
-      <div class="field">
-        <label for="lead-name">Ім'я</label>
-        <input id="lead-name" name="name" type="text" required maxlength="80" autocomplete="name" data-error="lead-name-error" />
-        <p id="lead-name-error" class="error-msg">Помилка: вкажіть, як до вас звертатися.</p>
+      <div class="flex flex-col gap-1.5">
+        <label class={label} for="lead-name">
+          Ім'я
+        </label>
+        <input
+          class={control}
+          id="lead-name"
+          name="name"
+          type="text"
+          required
+          maxlength="80"
+          autocomplete="name"
+          data-error="lead-name-error"
+        />
+        <p id="lead-name-error" class={error}>
+          Помилка: вкажіть, як до вас звертатися.
+        </p>
       </div>
 
-      <div class="field">
-        <label for="lead-phone">Телефон</label>
-        <span id="lead-phone-hint" class="hint">Наприклад: 067 123 45 67</span>
+      <div class="flex flex-col gap-1.5">
+        <label class={label} for="lead-phone">
+          Телефон
+        </label>
+        <span id="lead-phone-hint" class={note}>
+          Наприклад: 067 123 45 67
+        </span>
         <input
+          class={control}
           id="lead-phone"
           name="phone"
           type="tel"
@@ -44,24 +76,41 @@ const { product = "", title = "Залишити заявку" } = Astro.props;
           aria-describedby="lead-phone-hint"
           data-error="lead-phone-error"
         />
-        <p id="lead-phone-error" class="error-msg">Помилка: введіть номер телефону з 10 цифр, наприклад 067 123 45 67.</p>
+        <p id="lead-phone-error" class={error}>
+          Помилка: введіть номер телефону з 10 цифр, наприклад 067 123 45 67.
+        </p>
       </div>
 
-      <div class="field">
-        <label for="lead-city">Місто доставки <span class="optional">(необов'язково)</span></label>
-        <input id="lead-city" name="city" type="text" maxlength="80" autocomplete="address-level2" />
+      <div class="flex flex-col gap-1.5">
+        <label class={label} for="lead-city">
+          Місто доставки <span class={note}>(необов'язково)</span>
+        </label>
+        <input class={control} id="lead-city" name="city" type="text" maxlength="80" autocomplete="address-level2" />
       </div>
 
-      <div class="field field-wide">
-        <label for="lead-message">Що потрібно? <span class="optional">(необов'язково)</span></label>
-        <textarea id="lead-message" name="message" rows="4" maxlength="1500" placeholder="Техніка, оливи, об'єм"
-          >{product ? `Цікавить: ${product}` : ""}</textarea
-        >
+      <div class="col-span-full flex flex-col gap-1.5">
+        <label class={label} for="lead-message">
+          Що потрібно? <span class={note}>(необов'язково)</span>
+        </label>
+        <textarea
+          class={`${control} resize-y`}
+          id="lead-message"
+          name="message"
+          rows="4"
+          maxlength="1500"
+          placeholder="Техніка, оливи, об'єм"
+        >{product ? `Цікавить: ${product}` : ""}</textarea>
       </div>
 
-      <div class="field-wide actions">
-        <button class="btn btn-primary" type="submit">Надіслати заявку</button>
-        <p class="status" role="status" data-status></p>
+      <div class="col-span-full flex flex-wrap items-center gap-4">
+        <button class="btn btn-primary disabled:cursor-progress disabled:opacity-60" type="submit">
+          Надіслати заявку
+        </button>
+        <p
+          class="font-semibold empty:hidden data-[state=error]:text-danger data-[state=ok]:text-success"
+          role="status"
+          data-status
+        ></p>
       </div>
     </form>
   </div>
@@ -94,10 +143,14 @@ const { product = "", title = "Залишити заявку" } = Astro.props;
     form.querySelectorAll("input, textarea").forEach((el) => sync(el));
     form.addEventListener("blur", (e) => sync(e.target), true);
     form.addEventListener("input", (e) => sync(e.target));
-    form.addEventListener("invalid", (e) => {
-      (e.target as HTMLElement).classList.add("user-invalid-fallback");
-      sync(e.target);
-    }, true);
+    form.addEventListener(
+      "invalid",
+      (e) => {
+        (e.target as HTMLElement).classList.add("user-invalid-fallback");
+        sync(e.target);
+      },
+      true,
+    );
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -125,99 +178,3 @@ const { product = "", title = "Залишити заявку" } = Astro.props;
     });
   }
 </script>
-
-<style>
-  .lead-section {
-    background: var(--bg-soft);
-    padding-block: clamp(48px, 8vw, 88px);
-  }
-  .lead-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
-    gap: 40px;
-    align-items: start;
-  }
-  .lead-intro {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-  .lead-form {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
-    gap: 16px;
-    background: var(--bg);
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    padding: clamp(20px, 3vw, 28px);
-  }
-  .field {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-  .field-wide {
-    grid-column: 1 / -1;
-  }
-  label {
-    font-weight: 600;
-    font-size: 15px;
-  }
-  .optional,
-  .hint {
-    font-weight: 400;
-    font-size: 13px;
-    color: var(--muted);
-  }
-  input,
-  textarea {
-    font: inherit;
-    color: var(--ink);
-    background: var(--bg);
-    border: 1px solid var(--line-strong);
-    border-radius: var(--radius-sm);
-    padding: 10px 12px;
-    min-block-size: 48px;
-    inline-size: 100%;
-  }
-  textarea {
-    resize: vertical;
-  }
-  .error-msg {
-    display: none;
-    color: var(--danger);
-    font-size: 14px;
-  }
-  :is(input, textarea):is(:user-invalid, .user-invalid-fallback) {
-    border-color: var(--danger);
-    background: var(--danger-bg);
-  }
-  :is(input, textarea):is(:user-invalid, .user-invalid-fallback) + .error-msg {
-    display: block;
-  }
-  .actions {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 16px;
-  }
-  .status:empty {
-    display: none;
-  }
-  .status[data-state="ok"] {
-    color: var(--success);
-    font-weight: 600;
-  }
-  .status[data-state="error"] {
-    color: var(--danger);
-    font-weight: 600;
-  }
-  .hp {
-    position: absolute;
-    inset-inline-start: -10000px;
-  }
-  button:disabled {
-    opacity: 0.6;
-    cursor: progress;
-  }
-</style>

@@ -1,4 +1,5 @@
 ---
+import Breadcrumbs from "../components/Breadcrumbs.astro";
 import Base from "../layouts/Base.astro";
 import LeadForm from "../components/LeadForm.astro";
 import { breadcrumbs, faqSchema } from "../data/schema";
@@ -99,46 +100,41 @@ const faq = [
     faqSchema(faq),
   ]}
 >
-  <div class="wrap page">
-    <nav class="breadcrumbs" aria-label="Хлібні крихти">
-      <ol>
-        <li><a href="/">Головна</a></li>
-        <li aria-current="page">Довідка</li>
-      </ol>
-    </nav>
-    <h1>Довідка: як підібрати оливу</h1>
+  <div class="wrap flex max-w-220 flex-col gap-4 pt-8 pb-16">
+    <Breadcrumbs items={[{ name: "Головна", href: "/" }, { name: "Довідка" }]} />
+    <h1 class="text-[clamp(30px,4vw,44px)]">Довідка: як підібрати оливу</h1>
     <p class="lead">Коротко про маркування олив і рідин, щоб легше зорієнтуватися в каталозі.</p>
 
-    <div class="accordion">
-      {
-        guides.map((g) => (
-          <details id={g.id}>
-            <summary>{g.title}</summary>
-            <div class="content">
-              {g.body.map((t) => (
-                <p>{t}</p>
-              ))}
-            </div>
-          </details>
-        ))
-      }
+    <div class="mt-2 flex flex-col gap-3">
+      {guides.map((g) => (
+        <details id={g.id} class="group rounded-card border border-line bg-white open:border-line-strong">
+          <summary class="flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 px-5 py-3.5 text-[17px] font-semibold [&::-webkit-details-marker]:hidden after:flex-none after:text-2xl after:leading-none after:text-primary after:content-['+'] group-open:after:content-['−']">
+            {g.title}
+          </summary>
+          <div class="flex flex-col gap-2.5 px-5 pb-4.5 text-ink-2">
+            {g.body.map((t) => (
+              <p>{t}</p>
+            ))}
+          </div>
+        </details>
+      ))}
     </div>
 
-    <h2 class="section-title faq-title">Часті питання</h2>
-    <div class="accordion">
-      {
-        faq.map((f) => (
-          <details>
-            <summary>{f.q}</summary>
-            <div class="content">
-              <p>{f.a}</p>
-            </div>
-          </details>
-        ))
-      }
+    <h2 class="section-title mt-8">Часті питання</h2>
+    <div class="mt-2 flex flex-col gap-3">
+      {faq.map((f) => (
+        <details class="group rounded-card border border-line bg-white open:border-line-strong">
+          <summary class="flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 px-5 py-3.5 text-[17px] font-semibold [&::-webkit-details-marker]:hidden after:flex-none after:text-2xl after:leading-none after:text-primary after:content-['+'] group-open:after:content-['−']">
+            {f.q}
+          </summary>
+          <div class="flex flex-col gap-2.5 px-5 pb-4.5 text-ink-2">
+            <p>{f.a}</p>
+          </div>
+        </details>
+      ))}
     </div>
 
-    <p class="cta">
+    <p class="mt-4">
       Не знайшли відповідь? <a href="/assortment/">Перегляньте каталог</a> або залиште заявку — підкажемо.
     </p>
   </div>
@@ -154,68 +150,3 @@ const faq = [
   open();
   addEventListener("hashchange", open);
 </script>
-
-<style>
-  .page {
-    padding-block: 32px 64px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    max-inline-size: 880px;
-  }
-  h1 {
-    font-size: clamp(30px, 4vw, 44px);
-  }
-  .accordion {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin-block-start: 8px;
-  }
-  details {
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    background: var(--bg);
-  }
-  details[open] {
-    border-color: var(--line-strong);
-  }
-  summary {
-    list-style: none;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 16px;
-    min-block-size: 56px;
-    padding: 14px 20px;
-    font-weight: 600;
-    font-size: 17px;
-    cursor: pointer;
-  }
-  summary::-webkit-details-marker {
-    display: none;
-  }
-  summary::after {
-    content: "+";
-    flex: none;
-    font-size: 24px;
-    line-height: 1;
-    color: var(--primary);
-  }
-  details[open] summary::after {
-    content: "−";
-  }
-  .content {
-    padding: 0 20px 18px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    color: var(--ink-2);
-  }
-  .faq-title {
-    margin-block-start: 32px;
-  }
-  .cta {
-    margin-block-start: 16px;
-  }
-</style>

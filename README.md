@@ -2,7 +2,7 @@
 
 Сайт [treoil.vn.ua](https://treoil.vn.ua): оливи та мастила Texaco, Unil, Prista, Orlen з доставкою по Україні.
 
-Статичний сайт на [Astro](https://astro.build). Хостинг: thehost.ua (Apache + PHP).
+Статичний сайт на [Astro](https://astro.build) + [Tailwind CSS v4](https://tailwindcss.com). Токени кольорів і шрифтів — у `src/styles/global.css` (`@theme`). Хостинг: thehost.ua (Apache + PHP).
 
 ## Розробка
 
@@ -12,6 +12,7 @@ npm install
 npm run dev      # http://localhost:4321
 npm run build    # статичний сайт у dist/
 npm run check    # перевірка типів
+npm run format   # Prettier (сортує класи Tailwind)
 ```
 
 ## Структура

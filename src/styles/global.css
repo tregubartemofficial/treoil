@@ -1,170 +1,107 @@
+@import "tailwindcss";
 @import "@fontsource-variable/onest";
 
-:root {
-  color-scheme: light;
-  --ink: #0f1b2d;
-  --ink-2: #33425a;
-  --muted: #4a5a72;
-  --line: #e3e8ef;
-  --line-strong: #cfd8e3;
-  --bg: #ffffff;
-  --bg-soft: #f4f7fb;
-  --bg-tint: #e8f0fb;
-  --primary: #0b4ea2;
-  --primary-hover: #083a7a;
-  --on-primary: #ffffff;
-  --danger: #b3261e;
-  --danger-bg: #fdecea;
-  --success: #146c2e;
-  --radius: 12px;
-  --radius-sm: 8px;
-  --wrap: 1200px;
-  --gutter: clamp(16px, 4vw, 24px);
-  font-family: "Onest Variable", system-ui, -apple-system, "Segoe UI", sans-serif;
+@theme {
+  --font-sans: "Onest Variable", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --color-ink: #0f1b2d;
+  --color-ink-2: #33425a;
+  --color-muted: #4a5a72;
+  --color-line: #e3e8ef;
+  --color-line-strong: #cfd8e3;
+  --color-soft: #f4f7fb;
+  --color-tint: #e8f0fb;
+  --color-primary: #0b4ea2;
+  --color-primary-hover: #083a7a;
+  --color-danger: #b3261e;
+  --color-danger-bg: #fdecea;
+  --color-success: #146c2e;
+  --color-footer-text: #c9d3e0;
+  --color-footer-link: #e6ecf4;
+  --color-footer-line: #26354d;
+
+  --radius-card: 12px;
+  --radius-ctl: 8px;
+
+  --breakpoint-nav: 860px;
 }
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-html {
-  -webkit-text-size-adjust: 100%;
-  text-size-adjust: 100%;
-  scroll-padding-top: 1rem;
-}
-
-@media (prefers-reduced-motion: no-preference) {
+@layer base {
+  :root {
+    color-scheme: light;
+    --gutter: clamp(16px, 4vw, 24px);
+  }
   html {
-    scroll-behavior: smooth;
+    text-size-adjust: 100%;
+    scroll-padding-top: 1rem;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+  body {
+    @apply flex min-h-dvh flex-col bg-white leading-relaxed text-ink antialiased;
+  }
+  h1,
+  h2,
+  h3 {
+    @apply leading-tight font-bold text-balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  a {
+    @apply text-primary hover:text-primary-hover;
+  }
+  :focus-visible {
+    @apply outline-3 outline-offset-2 outline-primary;
+  }
+  [hidden] {
+    display: none !important;
   }
 }
 
-body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--ink);
-  font-size: 1rem;
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
-  min-block-size: 100dvh;
-  display: flex;
-  flex-direction: column;
+@utility wrap {
+  @apply mx-auto w-full max-w-300 px-(--gutter);
 }
 
-main {
-  flex: 1;
-}
-
-h1,
-h2,
-h3 {
-  line-height: 1.15;
-  margin: 0;
-  text-wrap: balance;
-}
-
-p {
-  margin: 0;
-  text-wrap: pretty;
-}
-
-[hidden] {
-  display: none !important;
-}
-
-img {
-  max-inline-size: 100%;
-  block-size: auto;
-  display: block;
-}
-
-a {
-  color: var(--primary);
-}
-
-a:hover {
-  color: var(--primary-hover);
-}
-
-:focus-visible {
-  outline: 3px solid var(--primary);
-  outline-offset: 2px;
-}
-
-.wrap {
-  max-inline-size: var(--wrap);
-  margin-inline: auto;
-  padding-inline: var(--gutter);
-}
-
-.section {
+@utility section-pad {
   padding-block: clamp(48px, 8vw, 88px);
 }
 
-.section-title {
+@utility section-title {
+  @apply font-bold;
   font-size: clamp(28px, 4vw, 40px);
-  font-weight: 700;
 }
 
-.lead {
+@utility lead {
+  @apply text-muted;
   font-size: clamp(16px, 2vw, 18px);
-  color: var(--muted);
 }
 
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  min-block-size: 48px;
-  padding: 12px 22px;
-  border-radius: var(--radius-sm);
-  font: inherit;
-  font-weight: 600;
-  text-decoration: none;
-  border: 1px solid transparent;
-  cursor: pointer;
-  transition: background-color 0.15s, border-color 0.15s;
+@layer components {
+  .btn {
+    @apply inline-flex min-h-12 cursor-pointer items-center justify-center gap-2 rounded-ctl border border-transparent px-5.5 py-3 font-semibold no-underline transition-colors forced-colors:border-[ButtonText];
+  }
+  .btn-primary {
+    @apply bg-primary text-white hover:bg-primary-hover hover:text-white;
+  }
+  .btn-secondary {
+    @apply border-line-strong bg-white text-ink hover:border-ink-2 hover:text-ink;
+  }
+  .chip {
+    @apply inline-block rounded-full bg-[#f1f3f6] px-2.5 py-0.5 text-[13px] text-ink-2;
+  }
+  .chip-brand {
+    @apply bg-tint font-semibold text-primary;
+  }
+  .card-grid {
+    @apply m-0 grid list-none grid-cols-[repeat(auto-fill,minmax(min(100%,250px),1fr))] gap-5 p-0;
+  }
 }
 
-.btn-primary {
-  background: var(--primary);
-  color: var(--on-primary);
-}
-
-.btn-primary:hover {
-  background: var(--primary-hover);
-  color: var(--on-primary);
-}
-
-.btn-secondary {
-  background: var(--bg);
-  color: var(--ink);
-  border-color: var(--line-strong);
-}
-
-.btn-secondary:hover {
-  border-color: var(--ink-2);
-  color: var(--ink);
-}
-
-.chip {
-  display: inline-block;
-  padding: 3px 10px;
-  border-radius: 999px;
-  font-size: 13px;
-  background: #f1f3f6;
-  color: var(--ink-2);
-}
-
-.chip-brand {
-  background: var(--bg-tint);
-  color: var(--primary);
-  font-weight: 600;
-}
-
+/* Hides content visually but keeps it in the accessibility tree */
 .visually-hidden:where(:not(:focus-within, :active)) {
   position: absolute !important;
   clip-path: inset(50%) !important;
@@ -175,47 +112,4 @@ a:hover {
   padding: 0 !important;
   border: 0 !important;
   white-space: nowrap !important;
-}
-
-.skip-link {
-  position: absolute;
-  inset-inline-start: 8px;
-  inset-block-start: -100px;
-  z-index: 100;
-  background: var(--ink);
-  color: #fff;
-  padding: 12px 16px;
-  border-radius: var(--radius-sm);
-}
-
-.skip-link:focus {
-  inset-block-start: 8px;
-  color: #fff;
-}
-
-.breadcrumbs ol {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  font-size: 14px;
-  color: var(--muted);
-}
-
-.breadcrumbs li + li::before {
-  content: "/";
-  margin-inline-end: 6px;
-  color: var(--line-strong);
-}
-
-.breadcrumbs a {
-  color: var(--muted);
-}
-
-@media (forced-colors: active) {
-  .btn {
-    border-color: ButtonText;
-  }
 }

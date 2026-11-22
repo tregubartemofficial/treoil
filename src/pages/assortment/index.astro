@@ -1,4 +1,5 @@
 ---
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import Base from "../../layouts/Base.astro";
 import ProductCard from "../../components/ProductCard.astro";
 import LeadForm from "../../components/LeadForm.astro";
@@ -26,41 +27,50 @@ const itemList = {
 <Base
   title="Каталог олив і мастил"
   description={`Каталог: ${products.length} позицій моторних, трансмісійних, індустріальних олив, мастил і антифризів Prista, Unil, Orlen. Доставка Новою Поштою по Україні.`}
-  jsonLd={[breadcrumbs([{ name: "Головна", path: "/" }, { name: "Каталог", path: "/assortment/" }]), itemList]}
+  jsonLd={[
+    breadcrumbs([
+      { name: "Головна", path: "/" },
+      { name: "Каталог", path: "/assortment/" },
+    ]),
+    itemList,
+  ]}
 >
-  <div class="wrap page">
-    <nav class="breadcrumbs" aria-label="Хлібні крихти">
-      <ol>
-        <li><a href="/">Головна</a></li>
-        <li aria-current="page">Каталог</li>
-      </ol>
-    </nav>
-    <h1>Каталог олив і мастил</h1>
+  <div class="wrap flex flex-col gap-4 pt-8 pb-16">
+    <Breadcrumbs items={[{ name: "Головна", href: "/" }, { name: "Каталог" }]} />
+    <h1 class="text-[clamp(30px,4vw,44px)]">Каталог олив і мастил</h1>
 
-    <div class="layout">
-      <form class="filters" aria-label="Фільтри" data-filters>
-        {
-          groups.map((g) => (
-            <fieldset>
-              <legend>{g.legend}</legend>
-              {g.options.map((o) => (
-                <label class="opt">
-                  <input type="checkbox" name={g.key} value={o.value} />
-                  <span>{o.label}</span>
-                </label>
-              ))}
-            </fieldset>
-          ))
-        }
-        <button class="btn btn-secondary" type="reset">Скинути фільтри</button>
+    <div class="mt-2 flex flex-wrap items-start gap-8">
+      <form
+        class="flex flex-[1_1_220px] flex-col gap-5 rounded-card border border-line p-5 min-[900px]:sticky min-[900px]:top-4 min-[900px]:max-w-65"
+        aria-label="Фільтри"
+        data-filters
+      >
+        {groups.map((g) => (
+          <fieldset class="m-0 flex flex-wrap gap-x-3 gap-y-0.5 border-0 p-0">
+            <legend class="mb-1.5 p-0 font-bold">{g.legend}</legend>
+            {g.options.map((o) => (
+              <label class="flex min-h-10 flex-[1_0_45%] cursor-pointer items-center gap-2 whitespace-nowrap">
+                <input class="size-5 accent-primary" type="checkbox" name={g.key} value={o.value} />
+                <span>{o.label}</span>
+              </label>
+            ))}
+          </fieldset>
+        ))}
+        <button class="btn btn-secondary" type="reset">
+          Скинути фільтри
+        </button>
       </form>
 
-      <div class="results">
-        <p class="count" role="status" data-count>Знайдено: {products.length}</p>
-        <ul class="grid" data-grid>
-          {products.map((p) => <ProductCard product={p} />)}
+      <div class="flex min-w-0 flex-[999_1_560px] flex-col gap-4">
+        <p class="font-semibold text-muted" role="status" data-count>
+          Знайдено: {products.length}
+        </p>
+        <ul class="card-grid" data-grid>
+          {products.map((p) => (
+            <ProductCard product={p} />
+          ))}
         </ul>
-        <p class="empty" hidden data-empty>
+        <p class="rounded-card bg-soft p-6" hidden data-empty>
           Нічого не знайдено. Скиньте фільтри або <a href="#lead">залиште заявку</a> — підберемо аналог.
         </p>
       </div>
@@ -107,89 +117,3 @@ const itemList = {
   form.addEventListener("change", () => apply());
   form.addEventListener("reset", () => setTimeout(() => apply()));
 </script>
-
-<style>
-  .page {
-    padding-block: 32px 64px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-  h1 {
-    font-size: clamp(30px, 4vw, 44px);
-  }
-  .layout {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 32px;
-    align-items: flex-start;
-    margin-block-start: 8px;
-  }
-  .filters {
-    flex: 1 1 220px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    padding: 20px;
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-  }
-  @media (width >= 900px) {
-    .filters {
-      position: sticky;
-      inset-block-start: 16px;
-      max-inline-size: 260px;
-    }
-  }
-  fieldset {
-    border: 0;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2px 12px;
-  }
-  legend {
-    font-weight: 700;
-    margin-block-end: 6px;
-    padding: 0;
-  }
-  .opt {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    min-block-size: 40px;
-    cursor: pointer;
-    flex: 1 0 45%;
-    white-space: nowrap;
-  }
-  .opt input {
-    inline-size: 20px;
-    block-size: 20px;
-    accent-color: var(--primary);
-  }
-  .results {
-    flex: 999 1 560px;
-    min-inline-size: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-  .count {
-    color: var(--muted);
-    font-weight: 600;
-  }
-  .grid {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr));
-    gap: 20px;
-  }
-  .empty {
-    padding: 24px;
-    background: var(--bg-soft);
-    border-radius: var(--radius);
-  }
-</style>
