@@ -1,0 +1,203 @@
+---
+import { Image, getImage } from "astro:assets";
+import Base from "../../layouts/Base.astro";
+import ProductCard from "../../components/ProductCard.astro";
+import LeadForm from "../../components/LeadForm.astro";
+import { products, productImage, typeLabels, type Product } from "../../data/catalog";
+import { breadcrumbs, productSchema } from "../../data/schema";
+import { site } from "../../data/site";
+
+export function getStaticPaths() {
+  return products.map((product) => ({ params: { slug: product.slug }, props: { product } }));
+}
+
+interface Props {
+  product: Product;
+}
+const { product: p } = Astro.props;
+const img = productImage(p);
+const og = await getImage({ src: img, width: 800, format: "jpg" });
+const ogUrl = new URL(og.src, site.url).href;
+
+const related = products
+  .filter((x) => x.slug !== p.slug && x.type === p.type)
+  .sort((a, b) => Number(b.brand === p.brand) - Number(a.brand === p.brand))
+  .slice(0, 3);
+
+const metaDesc = `${p.title} — ${typeLabels[p.type].toLowerCase()} ${p.brand}${p.viscosity.length ? `, ${p.viscosity.join(" / ")}` : ""}. ${p.description[0]}`.slice(0, 158);
+---
+
+<Base
+  title={p.title}
+  description={metaDesc}
+  image={og.src}
+  type="product"
+  jsonLd={[
+    breadcrumbs([
+      { name: "Головна", path: "/" },
+      { name: "Каталог", path: "/assortment/" },
+      { name: p.title, path: `/assortment/${p.slug}/` },
+    ]),
+    productSchema(p, ogUrl),
+  ]}
+>
+  <div class="wrap page">
+    <nav class="breadcrumbs" aria-label="Хлібні крихти">
+      <ol>
+        <li><a href="/">Головна</a></li>
+        <li><a href="/assortment/">Каталог</a></li>
+        <li aria-current="page">{p.title}</li>
+      </ol>
+    </nav>
+
+    <article class="product">
+      <div class="media">
+        <Image
+          src={img}
+          alt={p.title}
+          widths={[320, 480, 720]}
+          sizes="(width >= 900px) 480px, 90vw"
+          loading="eager"
+          fetchpriority="high"
+        />
+      </div>
+      <div class="info">
+        <div class="chips">
+          <span class="chip chip-brand">{p.brand}</span>
+          <span class="chip">{typeLabels[p.type]}</span>
+        </div>
+        <h1>{p.title}</h1>
+        {
+          p.viscosity.length > 0 && (
+            <p class="visc">
+              В'язкість SAE: <strong>{p.viscosity.join(" / ")}</strong>
+            </p>
+          )
+        }
+        <div class="desc">{p.description.map((d) => <p>{d}</p>)}</div>
+        {
+          p.specifications.length > 0 && (
+            <section class="specs" aria-labelledby="specs-title">
+              <h2 id="specs-title">Специфікації та допуски</h2>
+              <ul>
+                {p.specifications.map((s) => (
+                  <li>{s}</li>
+                ))}
+              </ul>
+            </section>
+          )
+        }
+        <div class="actions">
+          <a class="btn btn-primary" href="#lead">Замовити</a>
+          <a class="btn btn-secondary" href={site.phones[0].href}>{site.phones[0].display}</a>
+        </div>
+        <p class="note">Фасування: каністри 4/10/20 л, бочки 210 л, ємності 1000 л. Доставка Новою Поштою по Україні.</p>
+      </div>
+    </article>
+
+    {
+      related.length > 0 && (
+        <section class="related" aria-labelledby="related-title">
+          <h2 id="related-title">Схожі товари</h2>
+          <ul class="grid">
+            {related.map((r) => (
+              <ProductCard product={r} />
+            ))}
+          </ul>
+        </section>
+      )
+    }
+  </div>
+  <LeadForm title={`Замовити ${p.title}`} product={p.title} />
+</Base>
+
+<style>
+  .page {
+    padding-block: 32px 64px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .product {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+    gap: 40px;
+    align-items: start;
+  }
+  .media {
+    background: var(--bg-soft);
+    border-radius: var(--radius);
+    padding: 24px;
+    display: grid;
+    place-items: center;
+    aspect-ratio: 1;
+  }
+  .media img {
+    max-block-size: 100%;
+    inline-size: auto;
+    object-fit: contain;
+    mix-blend-mode: multiply;
+  }
+  .info {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  h1 {
+    font-size: clamp(28px, 4vw, 40px);
+  }
+  .visc {
+    font-size: 18px;
+  }
+  .desc {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    color: var(--ink-2);
+  }
+  .specs {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+  }
+  .specs h2 {
+    font-size: 18px;
+    margin-block-end: 8px;
+  }
+  .specs ul {
+    margin: 0;
+    padding-inline-start: 20px;
+    color: var(--ink-2);
+  }
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .note {
+    font-size: 14px;
+    color: var(--muted);
+  }
+  .related {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-block-start: 24px;
+  }
+  .related h2 {
+    font-size: 28px;
+  }
+  .grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr));
+    gap: 20px;
+  }
+</style>

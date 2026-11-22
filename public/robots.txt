@@ -1,3 +1,6 @@
-# https://www.robotstxt.org/robotstxt.html
 User-agent: *
-Disallow:
+Allow: /
+Disallow: /lead.php
+Disallow: /dyakuyemo/
+
+Sitemap: https://treoil.vn.ua/sitemap-index.xml

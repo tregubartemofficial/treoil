@@ -1,0 +1,336 @@
+---
+import { Image } from "astro:assets";
+import Base from "../layouts/Base.astro";
+import ProductCard from "../components/ProductCard.astro";
+import LeadForm from "../components/LeadForm.astro";
+import { products, types, typeLabels, typeShort, assetImage } from "../data/catalog";
+import { site } from "../data/site";
+import { localBusiness, webSite } from "../data/schema";
+
+const featuredSlugs = [
+  "prista-ultra-plus-5w-40",
+  "prista-super-hd-15w-40",
+  "unil-opaljet-longlife-3-5w30",
+  "unil-matic-dx-vi",
+  "orlen-hydrol-l-hm-hlp",
+  "orlen-liten-ep-2",
+];
+const featured = featuredSlugs.map((s) => products.find((p) => p.slug === s)!).filter(Boolean);
+const counts = Object.fromEntries(types.map((t) => [t, products.filter((p) => p.type === t).length]));
+
+const packs = [
+  { img: "4L.png", label: "Каністра 4 л" },
+  { img: "10L.png", label: "Каністра 10 л" },
+  { img: "20L.png", label: "Каністра 20 л" },
+  { img: "barrel.png", label: "Бочка 210 л" },
+];
+const brandLogos = [
+  { img: "Texaco.png", name: "Texaco" },
+  { img: "Unil.png", name: "Unil" },
+  { img: "Prista.png", name: "Prista Oil" },
+  { img: "Orlen.png", name: "Orlen Oil" },
+];
+---
+
+<Base title={site.name} jsonLd={[localBusiness, webSite]}>
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <h1>Оливи та мастила для бізнесу з доставкою по всій Україні</h1>
+        <p class="lead">
+          Автомобільні, трансмісійні, індустріальні, компресорні й трансформаторні оливи, мастила та технічні рідини.
+          Підбір під техніку, комерційна пропозиція, відправка Новою Поштою або доставка на об'єкт у Вінниці.
+        </p>
+        <ul class="checks">
+          <li>Продукція {site.brands.join(", ")}</li>
+          <li>Каністри 4/10/20 л, бочки 210 л, ємності 1000 л</li>
+          <li>Доставка Новою Поштою по всій Україні</li>
+          <li>Виїзд спеціаліста для технічних питань (Вінниця та область)</li>
+        </ul>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="/assortment/">Перейти до каталогу</a>
+          <a class="btn btn-secondary" href="#lead">Залишити заявку</a>
+        </div>
+      </div>
+      <div class="hero-media">
+        <Image
+          src={assetImage("barrels.png")}
+          alt="Бочки та каністри з оливою"
+          widths={[360, 560, 840]}
+          sizes="(width >= 900px) 560px, 90vw"
+          loading="eager"
+          fetchpriority="high"
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="brands" aria-label="Бренди">
+    <ul class="wrap brand-list">
+      {
+        brandLogos.map((b) => (
+          <li>
+            <Image src={assetImage(b.img)} alt={b.name} height={56} densities={[1, 2]} loading="lazy" />
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section class="section">
+    <div class="wrap stack">
+      <h2 class="section-title">Категорії</h2>
+      <ul class="cats">
+        {
+          types.map((t) => (
+            <li>
+              <a href={`/assortment/?type=${t}`}>
+                <span class="cat-name">{typeShort[t]}</span>
+                <span class="cat-desc">{typeLabels[t]}</span>
+                <span class="cat-count">{counts[t]} позицій</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section-soft">
+    <div class="wrap stack">
+      <div class="row-between">
+        <h2 class="section-title">Популярні товари</h2>
+        <a href="/assortment/">Весь каталог ({products.length}) →</a>
+      </div>
+      <ul class="grid">
+        {featured.map((p) => <ProductCard product={p} />)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" id="delivery">
+    <div class="wrap split">
+      <div class="stack">
+        <h2 class="section-title">Доставка та фасування</h2>
+        <p class="lead">
+          Відправляємо Новою Поштою в будь-яке місто України. У Вінниці та області привеземо безпосередньо на об'єкт.
+          За потреби приїдемо уточнити технічні питання й скласти комерційну пропозицію.
+        </p>
+        <p class="lead">Оливу фасуємо в каністри 4, 10 і 20 літрів, бочки 210 літрів та ємності на 1000 літрів.</p>
+      </div>
+      <ul class="packs">
+        {
+          packs.map((p) => (
+            <li>
+              <Image src={assetImage(p.img)} alt="" height={96} densities={[1, 2]} loading="lazy" />
+              <span>{p.label}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section-soft" id="about">
+    <div class="wrap split">
+      <div class="stack">
+        <h2 class="section-title">Про нас</h2>
+        <p class="lead">
+          TREOIL — компанія з Вінниці, що продає та постачає оливи, мастила, технічні рідини й емульсоли для токарних
+          робіт від {site.brands.join(", ")}.
+        </p>
+        <p class="lead">
+          В асортименті автомобільні оливи для транспорту та стаціонарних установок, оливи для газових
+          двигунів-генераторів і когенераційних установок, промислові мастила, емульсоли, гас, нефрас, уайт-спірит.
+          Трансформаторні, компресорні та турбінні оливи, оливи для систем кондиціонування й холодильного обладнання,
+          термостійкі мастила та мастила для електромоторів.
+        </p>
+        <p><a href="/dovidka/">Як підібрати оливу — довідка →</a></p>
+      </div>
+      <div class="map">
+        <iframe
+          title={`Карта: TREOIL, ${site.address.city}, ${site.address.street}`}
+          src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d6101.428664284915!2d28.42624796042512!3d49.23700397727064!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x472d5da73e9773dd%3A0xa89b208970bd654a!2z0KLRgNC10L7QudC7!5e0!3m2!1suk!2sua!4v1690721689427!5m2!1suk!2sua"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <LeadForm />
+</Base>
+
+<style>
+  .hero {
+    background: var(--bg-soft);
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
+    gap: 40px;
+    align-items: center;
+    padding-block: clamp(40px, 7vw, 80px);
+  }
+  .hero-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+  h1 {
+    font-size: clamp(34px, 5vw, 56px);
+    font-weight: 700;
+  }
+  .checks {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .checks li {
+    display: flex;
+    gap: 10px;
+  }
+  .checks li::before {
+    content: "";
+    flex: none;
+    inline-size: 20px;
+    block-size: 20px;
+    margin-block-start: 3px;
+    border-radius: 50%;
+    background: var(--primary)
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='white' stroke-width='2.5'%3E%3Cpath d='m5.5 10.5 3 3 6-7'/%3E%3C/svg%3E")
+      center / 100% no-repeat;
+  }
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .hero-media img {
+    inline-size: 100%;
+    max-block-size: 520px;
+    object-fit: contain;
+  }
+  .brands {
+    border-block: 1px solid var(--line);
+  }
+  .brand-list {
+    list-style: none;
+    margin-block: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    gap: 24px 40px;
+    padding-block: 24px;
+  }
+  .brand-list img {
+    block-size: 56px;
+    inline-size: auto;
+    object-fit: contain;
+  }
+  .section-soft {
+    background: var(--bg-soft);
+  }
+  .stack {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .row-between {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+  }
+  .row-between a {
+    font-weight: 600;
+  }
+  .grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+    gap: 20px;
+  }
+  .cats {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));
+    gap: 16px;
+  }
+  .cats a {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 22px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    color: var(--ink);
+    text-decoration: none;
+    block-size: 100%;
+  }
+  .cats a:hover {
+    border-color: var(--primary);
+  }
+  .cat-name {
+    font-size: 20px;
+    font-weight: 700;
+  }
+  .cat-desc {
+    color: var(--muted);
+    font-size: 14px;
+  }
+  .cat-count {
+    margin-block-start: 8px;
+    color: var(--primary);
+    font-weight: 600;
+    font-size: 14px;
+  }
+  .split {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
+    gap: 40px;
+    align-items: center;
+  }
+  .packs {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 16px;
+  }
+  .packs li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 20px 12px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    font-weight: 600;
+    text-align: center;
+  }
+  .packs img {
+    block-size: 96px;
+    inline-size: auto;
+  }
+  .map {
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--line);
+    aspect-ratio: 4 / 3;
+  }
+  .map iframe {
+    border: 0;
+    inline-size: 100%;
+    block-size: 100%;
+  }
+</style>

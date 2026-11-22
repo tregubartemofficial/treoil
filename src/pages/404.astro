@@ -1,0 +1,28 @@
+---
+import Base from "../layouts/Base.astro";
+---
+
+<Base title="Сторінку не знайдено" noindex>
+  <div class="wrap page">
+    <h1>Сторінку не знайдено</h1>
+    <p class="lead">Можливо, адреса змінилася. Спробуйте каталог або головну сторінку.</p>
+    <div class="actions">
+      <a class="btn btn-primary" href="/assortment/">До каталогу</a>
+      <a class="btn btn-secondary" href="/">На головну</a>
+    </div>
+  </div>
+</Base>
+
+<style>
+  .page {
+    padding-block: 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+</style>

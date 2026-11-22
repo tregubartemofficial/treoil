@@ -1,0 +1,223 @@
+---
+interface Props {
+  product?: string;
+  title?: string;
+}
+const { product = "", title = "Залишити заявку" } = Astro.props;
+---
+
+<section class="lead-section" id="lead" aria-labelledby="lead-title">
+  <div class="wrap lead-grid">
+    <div class="lead-intro">
+      <h2 id="lead-title" class="section-title">{title}</h2>
+      <p class="lead">
+        Підберемо оливу під вашу техніку, підготуємо комерційну пропозицію і відправимо Новою Поштою або привеземо на
+        об'єкт. Передзвонимо протягом робочого дня.
+      </p>
+    </div>
+
+    <form class="lead-form" action="/lead.php" method="post" novalidate={false} data-lead-form>
+      <input type="hidden" name="product" value={product} />
+      <input type="hidden" name="page" value={Astro.url.pathname} />
+      <div class="hp" aria-hidden="true">
+        <label for="lead-website">Не заповнюйте це поле</label>
+        <input id="lead-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+      </div>
+
+      <div class="field">
+        <label for="lead-name">Ім'я</label>
+        <input id="lead-name" name="name" type="text" required maxlength="80" autocomplete="name" data-error="lead-name-error" />
+        <p id="lead-name-error" class="error-msg">Помилка: вкажіть, як до вас звертатися.</p>
+      </div>
+
+      <div class="field">
+        <label for="lead-phone">Телефон</label>
+        <span id="lead-phone-hint" class="hint">Наприклад: 067 123 45 67</span>
+        <input
+          id="lead-phone"
+          name="phone"
+          type="tel"
+          required
+          inputmode="tel"
+          autocomplete="tel"
+          pattern="[+0-9\s()\-]{10,20}"
+          aria-describedby="lead-phone-hint"
+          data-error="lead-phone-error"
+        />
+        <p id="lead-phone-error" class="error-msg">Помилка: введіть номер телефону з 10 цифр, наприклад 067 123 45 67.</p>
+      </div>
+
+      <div class="field">
+        <label for="lead-city">Місто доставки <span class="optional">(необов'язково)</span></label>
+        <input id="lead-city" name="city" type="text" maxlength="80" autocomplete="address-level2" />
+      </div>
+
+      <div class="field field-wide">
+        <label for="lead-message">Що потрібно? <span class="optional">(необов'язково)</span></label>
+        <textarea id="lead-message" name="message" rows="4" maxlength="1500" placeholder="Техніка, оливи, об'єм"
+          >{product ? `Цікавить: ${product}` : ""}</textarea
+        >
+      </div>
+
+      <div class="field-wide actions">
+        <button class="btn btn-primary" type="submit">Надіслати заявку</button>
+        <p class="status" role="status" data-status></p>
+      </div>
+    </form>
+  </div>
+</section>
+
+<script>
+  const linkError = (el: HTMLElement, shown: boolean) => {
+    const errorId = el.dataset.error;
+    if (!errorId) return;
+    const ids = (el.getAttribute("aria-describedby") || "").split(/\s+/).filter((id) => id && id !== errorId);
+    if (shown) ids.push(errorId);
+    if (ids.length) el.setAttribute("aria-describedby", ids.join(" "));
+    else el.removeAttribute("aria-describedby");
+  };
+  const sync = (el: EventTarget | null) => {
+    if (!(el instanceof HTMLElement) || !el.matches("input, textarea")) return;
+    let invalid = false;
+    try {
+      invalid = el.matches(":user-invalid");
+    } catch {
+      invalid = el.classList.contains("user-invalid-fallback");
+    }
+    el.setAttribute("aria-invalid", String(invalid));
+    linkError(el, invalid);
+  };
+
+  for (const form of document.querySelectorAll<HTMLFormElement>("[data-lead-form]")) {
+    const status = form.querySelector<HTMLElement>("[data-status]")!;
+    const button = form.querySelector<HTMLButtonElement>("button[type=submit]")!;
+    form.querySelectorAll("input, textarea").forEach((el) => sync(el));
+    form.addEventListener("blur", (e) => sync(e.target), true);
+    form.addEventListener("input", (e) => sync(e.target));
+    form.addEventListener("invalid", (e) => {
+      (e.target as HTMLElement).classList.add("user-invalid-fallback");
+      sync(e.target);
+    }, true);
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (!form.reportValidity()) return;
+      button.disabled = true;
+      status.dataset.state = "";
+      status.textContent = "Надсилаємо…";
+      try {
+        const res = await fetch(form.action, {
+          method: "POST",
+          body: new FormData(form),
+          headers: { Accept: "application/json" },
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok || !data.ok) throw new Error(data.error || "send failed");
+        form.reset();
+        status.dataset.state = "ok";
+        status.textContent = "Дякуємо! Заявку отримано, ми скоро зателефонуємо.";
+      } catch {
+        status.dataset.state = "error";
+        status.textContent = "Не вдалося надіслати. Зателефонуйте нам: 063 734 11 69.";
+      } finally {
+        button.disabled = false;
+      }
+    });
+  }
+</script>
+
+<style>
+  .lead-section {
+    background: var(--bg-soft);
+    padding-block: clamp(48px, 8vw, 88px);
+  }
+  .lead-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+    gap: 40px;
+    align-items: start;
+  }
+  .lead-intro {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .lead-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+    gap: 16px;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: clamp(20px, 3vw, 28px);
+  }
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .field-wide {
+    grid-column: 1 / -1;
+  }
+  label {
+    font-weight: 600;
+    font-size: 15px;
+  }
+  .optional,
+  .hint {
+    font-weight: 400;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  input,
+  textarea {
+    font: inherit;
+    color: var(--ink);
+    background: var(--bg);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-sm);
+    padding: 10px 12px;
+    min-block-size: 48px;
+    inline-size: 100%;
+  }
+  textarea {
+    resize: vertical;
+  }
+  .error-msg {
+    display: none;
+    color: var(--danger);
+    font-size: 14px;
+  }
+  :is(input, textarea):is(:user-invalid, .user-invalid-fallback) {
+    border-color: var(--danger);
+    background: var(--danger-bg);
+  }
+  :is(input, textarea):is(:user-invalid, .user-invalid-fallback) + .error-msg {
+    display: block;
+  }
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px;
+  }
+  .status:empty {
+    display: none;
+  }
+  .status[data-state="ok"] {
+    color: var(--success);
+    font-weight: 600;
+  }
+  .status[data-state="error"] {
+    color: var(--danger);
+    font-weight: 600;
+  }
+  .hp {
+    position: absolute;
+    inset-inline-start: -10000px;
+  }
+  button:disabled {
+    opacity: 0.6;
+    cursor: progress;
+  }
+</style>
