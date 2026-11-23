@@ -4,6 +4,7 @@ import Base from "../layouts/Base.astro";
 import ProductCard from "../components/ProductCard.astro";
 import LeadForm from "../components/LeadForm.astro";
 import PackIcon from "../components/PackIcon.astro";
+import HeroArt from "../components/HeroArt.astro";
 import Reviews from "../components/Reviews.astro";
 import { products, types, typeLabels, typeShort, assetImage } from "../data/catalog";
 import { site } from "../data/site";
@@ -63,15 +64,7 @@ const brandLogos = [
         </div>
       </div>
       <div>
-        <Image
-          src={assetImage("barrels.png")}
-          alt="Бочки та каністри з оливою"
-          widths={[360, 560, 840]}
-          sizes="(width >= 900px) 560px, 90vw"
-          loading="eager"
-          fetchpriority="high"
-          class="max-h-130 w-full object-contain"
-        />
+        <HeroArt />
       </div>
     </div>
   </section>
