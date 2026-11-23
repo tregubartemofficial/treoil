@@ -3,6 +3,8 @@ import { Image } from "astro:assets";
 import Base from "../layouts/Base.astro";
 import ProductCard from "../components/ProductCard.astro";
 import LeadForm from "../components/LeadForm.astro";
+import PackIcon from "../components/PackIcon.astro";
+import Reviews from "../components/Reviews.astro";
 import { products, types, typeLabels, typeShort, assetImage } from "../data/catalog";
 import { site } from "../data/site";
 import { localBusiness, webSite } from "../data/schema";
@@ -19,11 +21,12 @@ const featured = featuredSlugs.map((s) => products.find((p) => p.slug === s)!).f
 const counts = Object.fromEntries(types.map((t) => [t, products.filter((p) => p.type === t).length]));
 
 const packs = [
-  { img: "4L.png", label: "Каністра 4 л" },
-  { img: "10L.png", label: "Каністра 10 л" },
-  { img: "20L.png", label: "Каністра 20 л" },
-  { img: "barrel.png", label: "Бочка 210 л" },
-];
+  { kind: "can-s", label: "Каністра 4 л" },
+  { kind: "can-m", label: "Каністра 10 л" },
+  { kind: "can-l", label: "Каністра 20 л" },
+  { kind: "barrel", label: "Бочка 210 л" },
+  { kind: "ibc", label: "Ємність 1000 л" },
+] as const;
 const brandLogos = [
   { img: "Texaco.png", name: "Texaco" },
   { img: "Unil.png", name: "Unil" },
@@ -111,7 +114,7 @@ const brandLogos = [
   </section>
 
   <section class="section-pad bg-soft">
-    <div class="wrap stack">
+    <div class="wrap flex flex-col gap-5">
       <div class="flex flex-wrap items-baseline justify-between gap-3">
         <h2 class="section-title">Популярні товари</h2>
         <a class="font-semibold" href="/assortment/">
@@ -136,11 +139,10 @@ const brandLogos = [
         </p>
         <p class="lead">Оливу фасуємо в каністри 4, 10 і 20 літрів, бочки 210 літрів та ємності на 1000 літрів.</p>
       </div>
-      <ul class="m-0 grid list-none grid-cols-[repeat(auto-fit,minmax(120px,1fr))] gap-4 p-0">
+      <ul class="m-0 grid list-none grid-cols-[repeat(auto-fit,minmax(112px,1fr))] gap-3 p-0">
         {packs.map((p) => (
-          <li class="flex flex-col items-center gap-2.5 rounded-card border border-line px-3 py-5 text-center font-semibold">
-            <Image src={assetImage(p.img)} alt="" height={96} densities={[1, 2]} loading="lazy" class="h-24 w-auto" />
-            <span>{p.label}</span>
+          <li class="flex flex-col items-center justify-end gap-3 rounded-card border border-line bg-white px-2 pt-5 pb-4 text-center text-sm font-semibold">
+            <PackIcon kind={p.kind} label={p.label} />
           </li>
         ))}
       </ul>
@@ -176,6 +178,8 @@ const brandLogos = [
       </div>
     </div>
   </section>
+
+  <Reviews />
 
   <LeadForm />
 </Base>

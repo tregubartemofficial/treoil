@@ -30,10 +30,7 @@ export const typeShort: Record<ProductType, string> = {
 
 export const products = raw as Product[];
 
-const images = import.meta.glob<{ default: ImageMetadata }>(
-  "/src/assets/images/**/*.{jpg,png}",
-  { eager: true },
-);
+const images = import.meta.glob<{ default: ImageMetadata }>("/src/assets/images/**/*.{jpg,png}", { eager: true });
 
 export function productImage(p: Product): ImageMetadata {
   const img = images[`/src/assets/images/${p.image}`];

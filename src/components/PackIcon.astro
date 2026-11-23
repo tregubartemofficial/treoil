@@ -1,0 +1,53 @@
+---
+// Line icons for packaging sizes. Decorative: the visible label carries the meaning.
+interface Props {
+  kind: "can-s" | "can-m" | "can-l" | "barrel" | "ibc";
+  label: string;
+}
+const { kind, label } = Astro.props;
+---
+
+<svg
+  aria-hidden="true"
+  viewBox="0 0 64 64"
+  class="size-16 text-primary"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2.25"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  {kind === "barrel" && (
+    <>
+      <ellipse cx="32" cy="12" rx="16" ry="4.5" />
+      <path d="M16 12v40c0 2.5 7.2 4.5 16 4.5s16-2 16-4.5V12" />
+      <path d="M16 25c0 2.5 7.2 4.5 16 4.5s16-2 16-4.5M16 39c0 2.5 7.2 4.5 16 4.5s16-2 16-4.5" />
+      <circle cx="38" cy="12" r="1.6" fill="currentColor" />
+    </>
+  )}
+  {kind === "ibc" && (
+    <>
+      <rect x="9" y="12" width="46" height="36" rx="3" />
+      <path d="M9 24h46M9 36h46M21 12v36M32 12v36M43 12v36" opacity=".45" />
+      <rect x="27" y="7" width="10" height="5" rx="1" />
+      <path d="M7 48h50v6H7zM14 54v3M32 54v3M50 54v3" />
+    </>
+  )}
+  {kind.startsWith("can") && (
+    <g
+      transform={
+        kind === "can-s"
+          ? "translate(14 18) scale(.6)"
+          : kind === "can-m"
+            ? "translate(9 11) scale(.75)"
+            : "translate(4 4) scale(.875)"
+      }
+    >
+      <path d="M14 22h22l6-10h12a4 4 0 0 1 4 4v42a4 4 0 0 1-4 4H14a4 4 0 0 1-4-4V26a4 4 0 0 1 4-4Z" />
+      <path d="M22 22V12a3 3 0 0 1 3-3h7" />
+      <rect x="44" y="5" width="9" height="7" rx="1.5" />
+      <path d="M20 34h28v18H20z" opacity=".45" />
+    </g>
+  )}
+</svg>
+<span>{label}</span>

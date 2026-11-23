@@ -1,0 +1,40 @@
+---
+import { site } from "../data/site";
+
+const star = "M12 2.8l2.8 5.8 6.3.9-4.6 4.4 1.1 6.3L12 17.2l-5.6 3 1.1-6.3L2.9 9.5l6.3-.9z";
+---
+
+<section class="section-pad" id="reviews" aria-labelledby="reviews-title">
+  <div class="wrap">
+    <div class="grid grid-cols-[repeat(auto-fit,minmax(min(100%,340px),1fr))] items-center gap-8 rounded-card border border-line bg-white p-[clamp(24px,4vw,48px)]">
+      <div class="flex flex-col gap-4">
+        <div class="flex gap-1 text-[#f5a623]" aria-hidden="true">
+          {Array.from({ length: 5 }, () => (
+            <svg viewBox="0 0 24 24" class="size-7" fill="currentColor">
+              <path d={star} />
+            </svg>
+          ))}
+        </div>
+        <h2 id="reviews-title" class="section-title">
+          Працювали з нами? Залиште відгук
+        </h2>
+        <p class="lead">
+          Ваш відгук на Google Maps допомагає іншим клієнтам знайти надійного постачальника, а нам — ставати кращими. Це
+          займе хвилину.
+        </p>
+      </div>
+      <div class="flex flex-col gap-3 nav:items-end">
+        <a class="btn btn-primary w-full nav:w-auto" href={site.reviewUrl} target="_blank" rel="noopener">
+          <svg aria-hidden="true" viewBox="0 0 24 24" class="size-5" fill="none" stroke="currentColor" stroke-width="2">
+            <path d={star} stroke-linejoin="round"></path>
+          </svg>
+          Залишити відгук у Google
+        </a>
+        <a class="btn btn-secondary w-full nav:w-auto" href={site.placeUrl} target="_blank" rel="noopener">
+          Читати відгуки
+        </a>
+        <p class="text-sm text-muted nav:text-right">Відкриється Google Maps. Потрібен акаунт Google.</p>
+      </div>
+    </div>
+  </div>
+</section>
