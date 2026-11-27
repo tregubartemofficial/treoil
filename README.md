@@ -1,53 +1,44 @@
 # TREOIL
 
-Welcome to the TREOIL Business React App repository! We are specializing in the production and sale of high-quality oils for machines and industrial processes.
+Сайт [treoil.vn.ua](https://treoil.vn.ua): оливи та мастила Texaco, Unil, Prista, Orlen з доставкою по Україні.
 
-## Table of Contents
+Статичний сайт на [Astro](https://astro.build) + [Tailwind CSS v4](https://tailwindcss.com). Токени кольорів і шрифтів — у `src/styles/global.css` (`@theme`). Хостинг: thehost.ua (Apache + PHP).
 
-- [Introduction](#introduction)
-- [Features](#features)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Technologies](#technologies)
+## Розробка
 
-## Introduction
+```sh
+nvm use          # Node 24 (.nvmrc)
+npm install
+npm run dev      # http://localhost:4321
+npm run build    # статичний сайт у dist/
+npm run check    # перевірка типів
+npm run format   # Prettier (сортує класи Tailwind)
+```
 
-The TREOIL App is designed to provide users with comprehensive information about our company. It consists of two main pages:
+## Структура
 
-1. **Company Overview**: Learn about our company's values, and commitment to excellence. Discover how we operate, our work ethic, and the principles that drive us forward.
+- `src/data/products.json` — каталог товарів (назва, бренд, тип, в'язкість, опис, специфікації, фото).
+- `src/data/site.ts` — контакти, адреса, бренди.
+- `src/assets/images/` — фото; Astro сам стискає їх у WebP.
+- `src/pages/` — головна, каталог `/assortment/`, сторінки товарів `/assortment/<slug>/`, довідка `/dovidka/`.
+- `public/lead.php` — надсилає заявки з форми в Telegram.
+- `public/.htaccess` — HTTPS-редирект, кешування, 404.
+- `scripts/make-icons.mjs` — генерує іконки та `og.png` з `public/favicon.svg`.
 
-2. **Product Catalog**: Explore our diverse range of oils tailored for machines and industrial applications. Gain insights into the benefits of each product, its specific uses, and how it can optimize various processes.
+### Додати товар
 
-## Features
+Додайте запис у `src/data/products.json`, а фото покладіть у `src/assets/images/<бренд>/`. `type`: `motor | gear | antifreeze | industrial`.
 
-- **Company Page**: Get an in-depth understanding of our business, including our history, core values, and work philosophy.
-- **Product Showcase**: Browse through our collection of premium oils, each carefully crafted to meet industry standards and enhance operational efficiency.
-- **Responsive Design**: Our app is built with responsiveness in mind, ensuring a seamless experience across various devices and screen sizes.
+## Заявки в Telegram
 
-## Installation
+1. Створіть бота через @BotFather і скопіюйте токен.
+2. Напишіть боту будь-яке повідомлення, потім відкрийте `https://api.telegram.org/bot<TOKEN>/getUpdates` і візьміть `chat.id`.
+3. На хостингу **поза** `public_html` (на рівень вище) створіть `treoil-config.php`:
+   ```php
+   <?php return ['bot_token' => '123:ABC...', 'chat_id' => '123456789'];
+   ```
+4. У панелі ISPManager увімкніть PHP 8.1 або новіший.
 
-To set up and run the MyFamily Business React App locally, follow these steps:
+## Деплой
 
-1. Clone this repository: `git clone https://github.com/your-username/your-repo.git`
-2. Navigate to the project directory: `cd your-repo`
-3. Install dependencies: `npm install`
-4. Start the development server: `npm start`
-
-## Usage
-
-Once the development server is up and running, open your browser and navigate to `http://localhost:3000` to explore the app. Click on the navigation links to switch between the Company Overview and Product Catalog pages.
-
-## Technologies
-
-This project is built using the following technologies:
-
-- [React](https://reactjs.org/): A JavaScript library for building user interfaces.
-- [Material-UI (MUI)](https://mui.com/): A popular React UI framework that provides a set of components and styles for creating modern and responsive user interfaces.
-- [React Router](https://reactrouter.com/): A routing library for React applications, enabling navigation and dynamic rendering of components based on the URL.
-
---- 
-
-Visit our website: [treoil.vn.ua](https://treoil.vn.ua/)
-
-Best regards,
-[Artem Trehub]
+Під час пушу в `master` GitHub Action збирає сайт і заливає `dist/` по FTPS. Потрібні секрети репозиторію: `FTP_SERVER`, `FTP_USERNAME`, `FTP_PASSWORD`, `FTP_DIR` (наприклад `/www/treoil.vn.ua/`).

@@ -1,0 +1,15 @@
+---
+// Lead form gated by the `leadForm` feature flag (see src/data/features.ts).
+// When off, a contact block with phones/email renders under the same #lead anchor.
+import { features } from "../data/features";
+import LeadFormFields from "./LeadFormFields.astro";
+import ContactCta from "./ContactCta.astro";
+
+interface Props {
+  product?: string;
+  title?: string;
+}
+const { product, title } = Astro.props;
+---
+
+{features.leadForm ? <LeadFormFields product={product} title={title} /> : <ContactCta title={title} />}

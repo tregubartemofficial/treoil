@@ -1,0 +1,116 @@
+---
+// Flat illustration for the hero: two branded barrels on a pallet with canisters.
+// Inline SVG keeps it crisp, tiny and in brand colors (no photo, no old logo).
+const drop = "M0-26C9-13 17-3 17 7a17 17 0 0 1-34 0C-17-3-9-13 0-26Z";
+const ridge = (cx: number, y: number, rx: number) => `M${cx - rx} ${y}a${rx} 15 0 0 0 ${rx * 2} 0`;
+---
+
+<svg
+  viewBox="0 0 560 480"
+  role="img"
+  aria-label="Ілюстрація: бочки й каністри з оливою TREOIL на палеті"
+  class="mx-auto h-auto w-full max-w-140"
+>
+  <defs>
+    <linearGradient id="hero-front" x1="0" x2="1">
+      <stop offset="0" stop-color="#e9edff"></stop>
+      <stop offset=".35" stop-color="#ffffff"></stop>
+      <stop offset="1" stop-color="#c9d2ff"></stop>
+    </linearGradient>
+    <linearGradient id="hero-back" x1="0" x2="1">
+      <stop offset="0" stop-color="#0a1033"></stop>
+      <stop offset=".35" stop-color="#1c2566"></stop>
+      <stop offset="1" stop-color="#070b26"></stop>
+    </linearGradient>
+    <linearGradient id="hero-can" x1="0" x2="1">
+      <stop offset="0" stop-color="#ffffff"></stop>
+      <stop offset="1" stop-color="#dbe2ff"></stop>
+    </linearGradient>
+  </defs>
+
+  <!-- backdrop -->
+  <circle cx="290" cy="240" r="205" fill="#ffffff" opacity=".1"></circle>
+  <g fill="#d4ff3a">
+    <path d={drop} transform="translate(470 92)"></path>
+    <path d={drop} transform="translate(505 150) scale(.5)" opacity=".8"></path>
+    <path d={drop} transform="translate(78 120) scale(.42)" opacity=".7"></path>
+  </g>
+
+  <!-- floor shadow -->
+  <ellipse cx="290" cy="440" rx="235" ry="11" fill="#070b26" opacity=".35"></ellipse>
+
+  <!-- pallet -->
+  <g fill="#c99a5c">
+    <rect x="62" y="398" width="300" height="12" rx="2"></rect>
+    <rect x="62" y="428" width="300" height="9" rx="2"></rect>
+  </g>
+  <g fill="#a87a40">
+    <rect x="72" y="410" width="40" height="18"></rect>
+    <rect x="192" y="410" width="40" height="18"></rect>
+    <rect x="312" y="410" width="40" height="18"></rect>
+  </g>
+
+  <!-- back barrel -->
+  <g>
+    <path d="M86 190v196a64 15 0 0 0 128 0V190Z" fill="url(#hero-back)"></path>
+    <ellipse cx="150" cy="190" rx="64" ry="15" fill="#2c3680"></ellipse>
+    <ellipse cx="150" cy="190" rx="52" ry="10" fill="#1c2566"></ellipse>
+    <g fill="none" stroke="#000" stroke-width="3" opacity=".45">
+      <path d={ridge(150, 255, 64)}></path>
+      <path d={ridge(150, 325, 64)}></path>
+    </g>
+    <rect x="100" y="200" width="10" height="180" rx="5" fill="#fff" opacity=".1"></rect>
+  </g>
+
+  <!-- front barrel -->
+  <g>
+    <path d="M172 148v238a78 16 0 0 0 156 0V148Z" fill="url(#hero-front)"></path>
+    <ellipse cx="250" cy="148" rx="78" ry="16" fill="#ffffff"></ellipse>
+    <ellipse cx="250" cy="148" rx="64" ry="11" fill="#dbe2ff"></ellipse>
+    <ellipse cx="282" cy="146" rx="9" ry="3.5" fill="#1d3cff"></ellipse>
+    <g fill="none" stroke="#1d3cff" stroke-width="3" opacity=".35">
+      <path d={ridge(250, 222, 78)}></path>
+      <path d={ridge(250, 318, 78)}></path>
+    </g>
+    <rect x="190" y="160" width="12" height="220" rx="6" fill="#fff" opacity=".7"></rect>
+    <!-- label -->
+    <rect x="203" y="244" width="94" height="54" rx="12" fill="#1d3cff"></rect>
+    <svg x="212" y="256" width="24" height="23" viewBox="0 0 600 570" class="text-white">
+      <use href="#logo-mark"></use>
+    </svg>
+    <text x="242" y="270" font-size="12" font-weight="800" fill="#fff" font-family="Unbounded Variable, sans-serif">
+      TREOIL
+    </text>
+    <text x="242" y="286" font-size="10" fill="#d4ff3a" font-weight="600">
+      210 л
+    </text>
+  </g>
+
+  <!-- 20 L canister -->
+  <g>
+    <path
+      d="M366 314a10 10 0 0 1 10-10h18l10-20h50a8 8 0 0 1 8 8v144H366Z"
+      fill="url(#hero-can)"
+      stroke="#c3cbee"
+      stroke-width="2"
+    ></path>
+    <path d="M384 304v-14a8 8 0 0 1 8-8h14" fill="none" stroke="#ffffff" stroke-width="7" stroke-linecap="round"></path>
+    <rect x="436" y="272" width="18" height="13" rx="3" fill="#d4ff3a"></rect>
+    <rect x="378" y="336" width="72" height="68" rx="10" fill="#1d3cff"></rect>
+    <path d={drop} transform="translate(414 368) scale(.5)" fill="#fff"></path>
+    <text x="414" y="396" font-size="11" font-weight="700" fill="#fff" text-anchor="middle">
+      20 л
+    </text>
+  </g>
+
+  <!-- 4 L canister -->
+  <g>
+    <path d="M446 388a7 7 0 0 1 7-7h10l7-12h30a6 6 0 0 1 6 6v61h-60Z" fill="#d4ff3a"></path>
+    <path d="M457 381v-8a6 6 0 0 1 6-6h6" fill="none" stroke="#d4ff3a" stroke-width="5" stroke-linecap="round"></path>
+    <rect x="486" y="360" width="12" height="9" rx="2" fill="#0a1033"></rect>
+    <rect x="454" y="400" width="44" height="28" rx="6" fill="#0a1033"></rect>
+    <text x="476" y="419" font-size="10" font-weight="700" fill="#d4ff3a" text-anchor="middle">
+      4 л
+    </text>
+  </g>
+</svg>

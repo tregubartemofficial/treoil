@@ -1,0 +1,57 @@
+name: Deploy to thehost.ua
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      # Repository variable (Settings → Secrets and variables → Actions → Variables).
+      # Unset or anything but "true" keeps the lead form off.
+      PUBLIC_FEATURE_LEAD_FORM: ${{ vars.PUBLIC_FEATURE_LEAD_FORM }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+
+      - name: Drop lead.php while the lead form is off
+        if: env.PUBLIC_FEATURE_LEAD_FORM != 'true'
+        run: rm -f dist/lead.php
+
+      - name: Check required secrets
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          FTP_DIR: ${{ secrets.FTP_DIR }}
+        run: |
+          for v in FTP_SERVER FTP_USERNAME FTP_PASSWORD FTP_DIR; do
+            [ -n "${!v}" ] || { echo "::error::Secret $v is not set"; exit 1; }
+          done
+          case "$FTP_DIR" in */) ;; *) echo "::error::FTP_DIR must end with /"; exit 1;; esac
+
+      # Uploads only changed files and tracks state in .ftp-deploy-sync-state.json on the server.
+      # Never enable dangerous-clean-slate: it would wipe .well-known (Let's Encrypt) and cgi-bin.
+      - name: Upload via FTPS
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps
+          local-dir: ./dist/
+          server-dir: ${{ secrets.FTP_DIR }}

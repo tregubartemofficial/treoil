@@ -1,0 +1,19 @@
+---
+import Base from "../layouts/Base.astro";
+import { site } from "../data/site";
+---
+
+<Base title="Дякуємо за заявку" noindex>
+  <div class="wrap flex flex-col gap-4 py-20">
+    <h1 class="text-[clamp(30px,4vw,44px)]">Дякуємо! Заявку отримано</h1>
+    <p class="lead">
+      Ми зателефонуємо протягом робочого дня. Терміново? Дзвоніть:{" "}
+      <a href={site.phones[0].href}>{site.phones[0].display}</a>.
+    </p>
+    <p>
+      <a class="btn btn-primary" href="/assortment/">
+        Повернутися до каталогу
+      </a>
+    </p>
+  </div>
+</Base>

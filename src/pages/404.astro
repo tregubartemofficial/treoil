@@ -1,0 +1,18 @@
+---
+import Base from "../layouts/Base.astro";
+---
+
+<Base title="Сторінку не знайдено" noindex>
+  <div class="wrap flex flex-col gap-4 py-20">
+    <h1 class="text-[clamp(30px,4vw,44px)]">Сторінку не знайдено</h1>
+    <p class="lead">Можливо, адреса змінилася. Спробуйте каталог або головну сторінку.</p>
+    <div class="flex flex-wrap gap-3">
+      <a class="btn btn-primary" href="/assortment/">
+        До каталогу
+      </a>
+      <a class="btn btn-secondary" href="/">
+        На головну
+      </a>
+    </div>
+  </div>
+</Base>

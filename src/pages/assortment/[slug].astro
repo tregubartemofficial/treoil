@@ -1,0 +1,122 @@
+---
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import { Image, getImage } from "astro:assets";
+import Base from "../../layouts/Base.astro";
+import ProductCard from "../../components/ProductCard.astro";
+import LeadForm from "../../components/LeadForm.astro";
+import { products, productImage, typeLabels, type Product } from "../../data/catalog";
+import { breadcrumbs, productSchema } from "../../data/schema";
+import { site } from "../../data/site";
+
+export function getStaticPaths() {
+  return products.map((product) => ({ params: { slug: product.slug }, props: { product } }));
+}
+
+interface Props {
+  product: Product;
+}
+const { product: p } = Astro.props;
+const img = productImage(p);
+const og = await getImage({ src: img, width: 800, format: "jpg" });
+const ogUrl = new URL(og.src, site.url).href;
+
+const related = products
+  .filter((x) => x.slug !== p.slug && x.type === p.type)
+  .sort((a, b) => Number(b.brand === p.brand) - Number(a.brand === p.brand))
+  .slice(0, 3);
+
+const metaDesc =
+  `${p.title} — ${typeLabels[p.type].toLowerCase()} ${p.brand}${p.viscosity.length ? `, ${p.viscosity.join(" / ")}` : ""}. ${p.description[0]}`.slice(
+    0,
+    158,
+  );
+---
+
+<Base
+  title={p.title}
+  description={metaDesc}
+  image={og.src}
+  type="product"
+  jsonLd={[
+    breadcrumbs([
+      { name: "Головна", path: "/" },
+      { name: "Каталог", path: "/assortment/" },
+      { name: p.title, path: `/assortment/${p.slug}/` },
+    ]),
+    productSchema(p, ogUrl),
+  ]}
+>
+  <div class="wrap flex flex-col gap-6 pt-8 pb-16">
+    <Breadcrumbs
+      items={[{ name: "Головна", href: "/" }, { name: "Каталог", href: "/assortment/" }, { name: p.title }]}
+    />
+
+    <article class="grid grid-cols-[repeat(auto-fit,minmax(min(100%,340px),1fr))] items-start gap-10">
+      <div class="grid aspect-square place-items-center rounded-panel bg-white p-6">
+        <Image
+          src={img}
+          alt={p.title}
+          widths={[320, 480, 720]}
+          sizes="(width >= 900px) 480px, 90vw"
+          loading="eager"
+          fetchpriority="high"
+          class="h-auto max-h-full w-auto object-contain mix-blend-multiply"
+        />
+      </div>
+      <div class="flex flex-col gap-4">
+        <div class="flex flex-wrap gap-1.5">
+          <span class="chip chip-brand">{p.brand}</span>
+          <span class="chip">{typeLabels[p.type]}</span>
+        </div>
+        <h1 class="text-[clamp(28px,4vw,40px)]">{p.title}</h1>
+        {p.viscosity.length > 0 && (
+          <p class="text-lg">
+            В'язкість SAE: <strong>{p.viscosity.join(" / ")}</strong>
+          </p>
+        )}
+        <div class="flex flex-col gap-2.5 text-ink-2">
+          {p.description.map((d) => (
+            <p>{d}</p>
+          ))}
+        </div>
+        {p.specifications.length > 0 && (
+          <section class="rounded-card bg-white px-5 py-4.5" aria-labelledby="specs-title">
+            <h2 id="specs-title" class="mb-2 text-lg">
+              Специфікації та допуски
+            </h2>
+            <ul class="m-0 list-disc ps-5 text-ink-2">
+              {p.specifications.map((s) => (
+                <li>{s}</li>
+              ))}
+            </ul>
+          </section>
+        )}
+        <div class="flex flex-wrap gap-3">
+          <a class="btn btn-primary" href="#lead">
+            Замовити
+          </a>
+          <a class="btn btn-secondary" href={site.phones[0].href}>
+            {site.phones[0].display}
+          </a>
+        </div>
+        <p class="text-sm text-muted">
+          Фасування: каністри 4/10/20 л, бочки 210 л, ємності 1000 л. Доставка Новою Поштою по Україні.
+        </p>
+      </div>
+    </article>
+
+    {related.length > 0 && (
+      <section class="mt-6 flex flex-col gap-4" aria-labelledby="related-title">
+        <h2 id="related-title" class="text-[28px]">
+          Схожі товари
+        </h2>
+        <ul class="card-grid">
+          {related.map((r) => (
+            <ProductCard product={r} />
+          ))}
+        </ul>
+      </section>
+    )}
+  </div>
+  <LeadForm title={`Замовити ${p.title}`} product={p.title} />
+</Base>

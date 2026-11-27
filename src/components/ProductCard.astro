@@ -1,0 +1,47 @@
+---
+import { Image } from "astro:assets";
+import { productImage, typeShort, type Product } from "../data/catalog";
+
+interface Props {
+  product: Product;
+}
+const { product: p } = Astro.props;
+---
+
+<li
+  class="relative flex flex-col gap-3 rounded-card bg-white p-5 transition-shadow hover:shadow-[0_12px_32px_rgb(10_16_51/0.10)]"
+  data-brand={p.brand}
+  data-type={p.type}
+  data-viscosity={p.viscosity.join(" ")}
+>
+  <div class="grid aspect-4/3 place-items-center rounded-[18px] bg-soft p-3">
+    <Image
+      src={productImage(p)}
+      alt=""
+      widths={[220, 440]}
+      sizes="220px"
+      loading="lazy"
+      decoding="async"
+      class="h-auto max-h-full w-auto object-contain mix-blend-multiply"
+    />
+  </div>
+  <div class="flex flex-wrap gap-1.5">
+    <span class="chip chip-brand">{p.brand}</span>
+    <span class="chip">{typeShort[p.type]}</span>
+    {p.viscosity.map((v) => (
+      <span class="chip chip-accent">{v}</span>
+    ))}
+  </div>
+  <h3 class="text-[17px] leading-snug">
+    <a
+      href={`/assortment/${p.slug}/`}
+      class="text-ink no-underline after:absolute after:inset-0 after:rounded-card hover:text-ink focus-visible:outline-none focus-visible:after:outline-3 focus-visible:after:outline-offset-2 focus-visible:after:outline-primary"
+    >
+      {p.title}
+    </a>
+  </h3>
+  <p class="line-clamp-3 text-sm text-muted">{p.description[0]}</p>
+  <span class="mt-auto text-[15px] font-semibold text-primary" aria-hidden="true">
+    Характеристики →
+  </span>
+</li>

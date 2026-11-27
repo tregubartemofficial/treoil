@@ -1,0 +1,130 @@
+@import "tailwindcss";
+@import "@fontsource-variable/golos-text";
+@import "@fontsource-variable/unbounded";
+
+@theme {
+  --font-sans: "Golos Text Variable", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Unbounded Variable", "Golos Text Variable", system-ui, sans-serif;
+
+  --color-ink: #0a1033;
+  --color-ink-2: #2a3360;
+  --color-muted: #4a5280;
+  --color-line: #e0e4f0;
+  --color-line-strong: #c3cbee;
+  --color-soft: #f1f3fa;
+  --color-tint: #e4e8f7;
+  --color-primary: #2343c9;
+  --color-primary-hover: #1a33a0;
+  --color-on-primary-soft: #dde3f8;
+  --color-accent: #c8e86a;
+  --color-accent-hover: #b6d955;
+  --color-danger: #b3261e;
+  --color-danger-bg: #fdecea;
+  --color-success: #146c2e;
+  --color-footer-text: #c3c9e8;
+  --color-footer-link: #eef1ff;
+  --color-footer-line: #232b5c;
+
+  --radius-card: 24px;
+  --radius-panel: 32px;
+  --radius-ctl: 14px;
+
+  --breakpoint-nav: 860px;
+}
+
+@layer base {
+  :root {
+    color-scheme: light;
+    --gutter: clamp(16px, 4vw, 24px);
+  }
+  html {
+    text-size-adjust: 100%;
+    scroll-padding-top: 1rem;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+  body {
+    @apply flex min-h-dvh flex-col bg-soft leading-relaxed text-ink antialiased;
+  }
+  h1,
+  h2,
+  h3 {
+    @apply font-display leading-[1.1] font-bold tracking-[-0.01em] text-balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  a {
+    @apply text-primary hover:text-primary-hover;
+  }
+  :focus-visible {
+    @apply outline-3 outline-offset-2 outline-primary;
+  }
+  [hidden] {
+    display: none !important;
+  }
+}
+
+@utility wrap {
+  @apply mx-auto w-full max-w-300 px-(--gutter);
+}
+
+@utility section-pad {
+  padding-block: clamp(48px, 8vw, 88px);
+}
+
+@utility section-title {
+  @apply font-display font-bold;
+  font-size: clamp(28px, 4vw, 40px);
+}
+
+@utility lead {
+  @apply text-muted;
+  font-size: clamp(16px, 2vw, 18px);
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex min-h-12 cursor-pointer items-center justify-center gap-2 rounded-full border border-transparent px-6 py-3 font-semibold no-underline transition-colors forced-colors:border-[ButtonText];
+  }
+  .btn-primary {
+    @apply bg-primary text-white hover:bg-primary-hover hover:text-white;
+  }
+  .btn-secondary {
+    @apply border-line-strong bg-white text-ink hover:border-ink-2 hover:text-ink;
+  }
+  .btn-accent {
+    @apply bg-accent text-ink hover:bg-accent-hover hover:text-ink;
+  }
+  .btn-on-primary {
+    @apply bg-white/15 text-white hover:bg-white/25 hover:text-white;
+  }
+  .chip {
+    @apply inline-block rounded-full bg-soft px-2.5 py-0.5 text-[13px] font-medium text-ink-2;
+  }
+  .chip-brand {
+    @apply bg-tint font-semibold text-primary;
+  }
+  .chip-accent {
+    @apply bg-accent font-semibold text-ink;
+  }
+  .card-grid {
+    @apply m-0 grid list-none grid-cols-[repeat(auto-fill,minmax(min(100%,250px),1fr))] gap-4 p-0;
+  }
+}
+
+/* Hides content visually but keeps it in the accessibility tree */
+.visually-hidden:where(:not(:focus-within, :active)) {
+  position: absolute !important;
+  clip-path: inset(50%) !important;
+  overflow: hidden !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: -1px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  white-space: nowrap !important;
+}

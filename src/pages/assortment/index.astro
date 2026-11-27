@@ -1,0 +1,163 @@
+---
+import { ctaLabel, features } from "../../data/features";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import Base from "../../layouts/Base.astro";
+import ProductCard from "../../components/ProductCard.astro";
+import LeadForm from "../../components/LeadForm.astro";
+import { products, brands, types, viscosities, typeShort } from "../../data/catalog";
+import { breadcrumbs } from "../../data/schema";
+import { site } from "../../data/site";
+
+const groups = [
+  { key: "type", legend: "Тип", options: types.map((t) => ({ value: t, label: typeShort[t] })) },
+  { key: "brand", legend: "Бренд", options: brands.map((b) => ({ value: b, label: b })) },
+  { key: "viscosity", legend: "В'язкість SAE", options: viscosities.map((v) => ({ value: v, label: v })) },
+];
+const itemList = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  itemListElement: products.map((p, i) => ({
+    "@type": "ListItem",
+    position: i + 1,
+    url: `${site.url}/assortment/${p.slug}/`,
+    name: p.title,
+  })),
+};
+---
+
+<Base
+  title="Каталог олив і мастил"
+  description={`Каталог: ${products.length} позицій моторних, трансмісійних, індустріальних олив, мастил і антифризів Prista, Unil, Orlen. Доставка Новою Поштою по Україні.`}
+  jsonLd={[
+    breadcrumbs([
+      { name: "Головна", path: "/" },
+      { name: "Каталог", path: "/assortment/" },
+    ]),
+    itemList,
+  ]}
+>
+  <div class="wrap flex flex-col gap-4 pt-8 pb-16">
+    <Breadcrumbs items={[{ name: "Головна", href: "/" }, { name: "Каталог" }]} />
+    <h1 class="text-[clamp(30px,4vw,44px)]">Каталог олив і мастил</h1>
+
+    <div class="mt-2 flex flex-wrap items-start gap-8">
+      <details
+        class="group flex-[1_1_220px] rounded-card bg-white min-[900px]:sticky min-[900px]:top-4 min-[900px]:max-w-65"
+        data-filters-panel
+        open
+      >
+        <summary class="flex min-h-12 cursor-pointer list-none items-center justify-between gap-3 px-5 py-3 font-semibold min-[900px]:hidden [&::-webkit-details-marker]:hidden">
+          <span class="flex items-center gap-2">
+            <svg
+              aria-hidden="true"
+              class="size-5 text-primary"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            >
+              <path d="M4 6h16M7 12h10M10 18h4"></path>
+            </svg>
+            Фільтри
+            <span class="rounded-full bg-primary px-2 text-xs leading-5 text-white" hidden data-active-count></span>
+          </span>
+          <svg
+            aria-hidden="true"
+            class="size-5 transition-transform group-open:rotate-180"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+          >
+            <path d="m6 9 6 6 6-6"></path>
+          </svg>
+        </summary>
+        <form class="flex flex-col gap-5 px-5 pb-5 min-[900px]:pt-5" aria-label="Фільтри" data-filters>
+          {groups.map((g) => (
+            <fieldset class="m-0 flex flex-wrap gap-x-3 gap-y-0.5 border-0 p-0">
+              <legend class="mb-1.5 p-0 font-bold">{g.legend}</legend>
+              {g.options.map((o) => (
+                <label class="flex min-h-10 flex-[1_0_45%] cursor-pointer items-center gap-2 whitespace-nowrap">
+                  <input class="size-5 accent-primary" type="checkbox" name={g.key} value={o.value} />
+                  <span>{o.label}</span>
+                </label>
+              ))}
+            </fieldset>
+          ))}
+          <button class="btn btn-secondary" type="reset">
+            Скинути фільтри
+          </button>
+        </form>
+      </details>
+
+      <div class="flex min-w-0 flex-[999_1_560px] flex-col gap-4">
+        <p class="font-semibold text-muted" role="status" data-count>
+          Знайдено: {products.length}
+        </p>
+        <ul class="card-grid" data-grid>
+          {products.map((p) => (
+            <ProductCard product={p} />
+          ))}
+        </ul>
+        <p class="rounded-card bg-white p-6" hidden data-empty>
+          Нічого не знайдено. Скиньте фільтри або{" "}
+          <a href="#lead">{features.leadForm ? "залиште заявку" : "зв'яжіться з нами"}</a> — підберемо аналог.
+        </p>
+      </div>
+    </div>
+  </div>
+  <LeadForm title="Не знайшли потрібне?" />
+</Base>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>("[data-filters]")!;
+  const cards = [...document.querySelectorAll<HTMLElement>("[data-grid] > li")];
+  const count = document.querySelector<HTMLElement>("[data-count]")!;
+  const empty = document.querySelector<HTMLElement>("[data-empty]")!;
+  const keys = ["type", "brand", "viscosity"] as const;
+  const panel = document.querySelector<HTMLDetailsElement>("[data-filters-panel]")!;
+  const activeBadge = document.querySelector<HTMLElement>("[data-active-count]")!;
+
+  // Collapsed on phones, always open on desktop (summary is hidden there).
+  // Rendered open so the filters stay usable without JS.
+  const desktop = matchMedia("(width >= 900px)");
+  const syncPanel = () => (panel.open = desktop.matches);
+  syncPanel();
+  desktop.addEventListener("change", syncPanel);
+
+  const apply = (updateUrl = true) => {
+    const data = new FormData(form);
+    const sel = Object.fromEntries(keys.map((k) => [k, data.getAll(k) as string[]]));
+    let shown = 0;
+    for (const card of cards) {
+      const ok =
+        (!sel.type.length || sel.type.includes(card.dataset.type!)) &&
+        (!sel.brand.length || sel.brand.includes(card.dataset.brand!)) &&
+        (!sel.viscosity.length || card.dataset.viscosity!.split(" ").some((v) => sel.viscosity.includes(v)));
+      card.hidden = !ok;
+      if (ok) shown++;
+    }
+    count.textContent = `Знайдено: ${shown}`;
+    const active = keys.reduce((n, k) => n + sel[k].length, 0);
+    activeBadge.textContent = String(active);
+    activeBadge.hidden = active === 0;
+    empty.hidden = shown > 0;
+    if (updateUrl) {
+      const params = new URLSearchParams();
+      keys.forEach((k) => sel[k].forEach((v) => params.append(k, v)));
+      const qs = params.toString();
+      history.replaceState(null, "", qs ? `?${qs}` : location.pathname);
+    }
+  };
+
+  // Restore from URL (e.g. /assortment/?type=motor from the home page).
+  const params = new URLSearchParams(location.search);
+  for (const input of form.querySelectorAll<HTMLInputElement>("input[type=checkbox]")) {
+    input.checked = params.getAll(input.name).includes(input.value);
+  }
+  apply(false);
+  form.addEventListener("change", () => apply());
+  form.addEventListener("reset", () => setTimeout(() => apply()));
+</script>
