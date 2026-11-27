@@ -15,7 +15,7 @@ const control =
 const error = "hidden text-sm text-danger peer-user-invalid:block peer-[.user-invalid-fallback]:block";
 ---
 
-<section class="section-pad bg-soft" id="lead" aria-labelledby="lead-title">
+<section class="section-pad" id="lead" aria-labelledby="lead-title">
   <div class="wrap grid grid-cols-[repeat(auto-fit,minmax(min(100%,320px),1fr))] items-start gap-10">
     <div class="flex flex-col gap-4">
       <h2 id="lead-title" class="section-title">
@@ -28,7 +28,7 @@ const error = "hidden text-sm text-danger peer-user-invalid:block peer-[.user-in
     </div>
 
     <form
-      class="grid grid-cols-1 items-start gap-x-4 gap-y-5 rounded-card sm:grid-cols-2 border border-line bg-white p-[clamp(20px,3vw,28px)]"
+      class="grid grid-cols-1 items-start gap-x-4 gap-y-5 rounded-panel bg-white sm:grid-cols-2 p-[clamp(20px,3vw,28px)]"
       action="/lead.php"
       method="post"
       data-lead-form

@@ -52,7 +52,7 @@ const metaDesc =
     />
 
     <article class="grid grid-cols-[repeat(auto-fit,minmax(min(100%,340px),1fr))] items-start gap-10">
-      <div class="grid aspect-square place-items-center rounded-card bg-soft p-6">
+      <div class="grid aspect-square place-items-center rounded-panel bg-white p-6">
         <Image
           src={img}
           alt={p.title}
@@ -80,7 +80,7 @@ const metaDesc =
           ))}
         </div>
         {p.specifications.length > 0 && (
-          <section class="rounded-card border border-line px-5 py-4.5" aria-labelledby="specs-title">
+          <section class="rounded-card bg-white px-5 py-4.5" aria-labelledby="specs-title">
             <h2 id="specs-title" class="mb-2 text-lg">
               Специфікації та допуски
             </h2>

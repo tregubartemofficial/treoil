@@ -1,27 +1,33 @@
 @import "tailwindcss";
-@import "@fontsource-variable/onest";
+@import "@fontsource-variable/golos-text";
+@import "@fontsource-variable/unbounded";
 
 @theme {
-  --font-sans: "Onest Variable", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-sans: "Golos Text Variable", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Unbounded Variable", "Golos Text Variable", system-ui, sans-serif;
 
-  --color-ink: #0f1b2d;
-  --color-ink-2: #33425a;
-  --color-muted: #4a5a72;
-  --color-line: #e3e8ef;
-  --color-line-strong: #cfd8e3;
-  --color-soft: #f4f7fb;
-  --color-tint: #e8f0fb;
-  --color-primary: #0b4ea2;
-  --color-primary-hover: #083a7a;
+  --color-ink: #0a1033;
+  --color-ink-2: #2a3360;
+  --color-muted: #4a5280;
+  --color-line: #dde3f7;
+  --color-line-strong: #c3cbee;
+  --color-soft: #eef2ff;
+  --color-tint: #e3e9ff;
+  --color-primary: #1d3cff;
+  --color-primary-hover: #0a24c7;
+  --color-on-primary-soft: #dbe2ff;
+  --color-accent: #d4ff3a;
+  --color-accent-hover: #c2f01f;
   --color-danger: #b3261e;
   --color-danger-bg: #fdecea;
   --color-success: #146c2e;
-  --color-footer-text: #c9d3e0;
-  --color-footer-link: #e6ecf4;
-  --color-footer-line: #26354d;
+  --color-footer-text: #c3c9e8;
+  --color-footer-link: #eef1ff;
+  --color-footer-line: #232b5c;
 
-  --radius-card: 12px;
-  --radius-ctl: 8px;
+  --radius-card: 24px;
+  --radius-panel: 32px;
+  --radius-ctl: 14px;
 
   --breakpoint-nav: 860px;
 }
@@ -41,12 +47,12 @@
     }
   }
   body {
-    @apply flex min-h-dvh flex-col bg-white leading-relaxed text-ink antialiased;
+    @apply flex min-h-dvh flex-col bg-soft leading-relaxed text-ink antialiased;
   }
   h1,
   h2,
   h3 {
-    @apply leading-tight font-bold text-balance;
+    @apply font-display leading-[1.1] font-bold tracking-[-0.01em] text-balance;
   }
   p {
     text-wrap: pretty;
@@ -71,7 +77,7 @@
 }
 
 @utility section-title {
-  @apply font-bold;
+  @apply font-display font-bold;
   font-size: clamp(28px, 4vw, 40px);
 }
 
@@ -82,7 +88,7 @@
 
 @layer components {
   .btn {
-    @apply inline-flex min-h-12 cursor-pointer items-center justify-center gap-2 rounded-ctl border border-transparent px-5.5 py-3 font-semibold no-underline transition-colors forced-colors:border-[ButtonText];
+    @apply inline-flex min-h-12 cursor-pointer items-center justify-center gap-2 rounded-full border border-transparent px-6 py-3 font-semibold no-underline transition-colors forced-colors:border-[ButtonText];
   }
   .btn-primary {
     @apply bg-primary text-white hover:bg-primary-hover hover:text-white;
@@ -90,14 +96,23 @@
   .btn-secondary {
     @apply border-line-strong bg-white text-ink hover:border-ink-2 hover:text-ink;
   }
+  .btn-accent {
+    @apply bg-accent text-ink hover:bg-accent-hover hover:text-ink;
+  }
+  .btn-on-primary {
+    @apply bg-white/15 text-white hover:bg-white/25 hover:text-white;
+  }
   .chip {
-    @apply inline-block rounded-full bg-[#f1f3f6] px-2.5 py-0.5 text-[13px] text-ink-2;
+    @apply inline-block rounded-full bg-soft px-2.5 py-0.5 text-[13px] font-medium text-ink-2;
   }
   .chip-brand {
     @apply bg-tint font-semibold text-primary;
   }
+  .chip-accent {
+    @apply bg-accent font-semibold text-ink;
+  }
   .card-grid {
-    @apply m-0 grid list-none grid-cols-[repeat(auto-fill,minmax(min(100%,250px),1fr))] gap-5 p-0;
+    @apply m-0 grid list-none grid-cols-[repeat(auto-fill,minmax(min(100%,250px),1fr))] gap-4 p-0;
   }
 }
 

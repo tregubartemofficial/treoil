@@ -9,12 +9,12 @@ const { product: p } = Astro.props;
 ---
 
 <li
-  class="relative flex flex-col gap-3 rounded-card border border-line bg-white p-5 transition-shadow hover:border-line-strong hover:shadow-[0_8px_24px_rgb(15_27_45/0.08)]"
+  class="relative flex flex-col gap-3 rounded-card bg-white p-5 transition-shadow hover:shadow-[0_12px_32px_rgb(10_16_51/0.10)]"
   data-brand={p.brand}
   data-type={p.type}
   data-viscosity={p.viscosity.join(" ")}
 >
-  <div class="grid aspect-4/3 place-items-center rounded-ctl bg-soft p-3">
+  <div class="grid aspect-4/3 place-items-center rounded-[18px] bg-soft p-3">
     <Image
       src={productImage(p)}
       alt=""
@@ -29,10 +29,10 @@ const { product: p } = Astro.props;
     <span class="chip chip-brand">{p.brand}</span>
     <span class="chip">{typeShort[p.type]}</span>
     {p.viscosity.map((v) => (
-      <span class="chip">{v}</span>
+      <span class="chip chip-accent">{v}</span>
     ))}
   </div>
-  <h3 class="text-[19px]">
+  <h3 class="text-[17px] leading-snug">
     <a
       href={`/assortment/${p.slug}/`}
       class="text-ink no-underline after:absolute after:inset-0 after:rounded-card hover:text-ink focus-visible:outline-none focus-visible:after:outline-3 focus-visible:after:outline-offset-2 focus-visible:after:outline-primary"

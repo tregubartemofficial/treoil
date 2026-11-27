@@ -37,49 +37,58 @@ const brandLogos = [
 ---
 
 <Base title={site.name} jsonLd={[localBusiness, webSite]}>
-  <section class="bg-soft">
-    <div class="wrap grid grid-cols-[repeat(auto-fit,minmax(min(100%,380px),1fr))] items-center gap-10 py-[clamp(40px,7vw,80px)]">
-      <div class="flex flex-col gap-5.5">
-        <h1 class="text-[clamp(34px,5vw,56px)] font-bold">Оливи та мастила для бізнесу з доставкою по всій Україні</h1>
-        <p class="lead">
-          Автомобільні, трансмісійні, індустріальні, компресорні й трансформаторні оливи, мастила та технічні рідини.
-          Підбір під техніку, комерційна пропозиція, відправка Новою Поштою або доставка на об'єкт у Вінниці.
-        </p>
-        <ul
-          class="m-0 flex list-none flex-col gap-2 p-0 [&>li]:flex [&>li]:gap-2.5 [&>li]:before:mt-[3px] [&>li]:before:size-5 [&>li]:before:flex-none [&>li]:before:rounded-full [&>li]:before:bg-primary [&>li]:before:bg-(image:--check) [&>li]:before:bg-center [&>li]:before:content-['']"
-          style="--check:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='white' stroke-width='2.5'%3E%3Cpath d='m5.5 10.5 3 3 6-7'/%3E%3C/svg%3E&quot;)"
-        >
-          <li>Продукція {site.brands.join(", ")}</li>
-          <li>Каністри 4/10/20 л, бочки 210 л, ємності 1000 л</li>
-          <li>Доставка Новою Поштою по всій Україні</li>
-          <li>Виїзд спеціаліста для технічних питань (Вінниця та область)</li>
-        </ul>
-        <div class="flex flex-wrap gap-3">
-          <a class="btn btn-primary" href="/assortment/">
-            Перейти до каталогу
-          </a>
-          <a class="btn btn-secondary" href="#lead">
-            Залишити заявку
-          </a>
+  <section class="px-2 pt-2 sm:px-4 sm:pt-4">
+    <div class="overflow-hidden rounded-panel bg-primary text-white">
+      <div class="wrap grid grid-cols-[repeat(auto-fit,minmax(min(100%,380px),1fr))] items-center gap-8 py-[clamp(40px,7vw,80px)]">
+        <div class="flex flex-col gap-6">
+          <p class="m-0 inline-flex w-fit items-center gap-2 rounded-full bg-white/15 px-3.5 py-1.5 text-sm font-medium">
+            <span class="size-2 rounded-full bg-accent" aria-hidden="true"></span>
+            Доставка Новою Поштою по всій Україні
+          </p>
+          <h1 class="text-[clamp(36px,6vw,72px)] leading-[1.02] font-extrabold tracking-[-0.02em]">
+            Оливи та мастила для бізнесу
+          </h1>
+          <p class="max-w-xl text-[clamp(17px,2vw,20px)] leading-normal text-on-primary-soft">
+            Моторні, трансмісійні, гідравлічні та індустріальні оливи, мастила й технічні рідини{" "}
+            {site.brands.join(", ")}. Підберемо під техніку, підготуємо пропозицію й привеземо на об'єкт у Вінниці або
+            відправимо по Україні.
+          </p>
+          <ul class="m-0 flex list-none flex-wrap gap-2 p-0 text-sm font-medium">
+            <li class="rounded-full border border-white/25 px-3 py-1.5">Каністри 4–20 л</li>
+            <li class="rounded-full border border-white/25 px-3 py-1.5">Бочки 210 л</li>
+            <li class="rounded-full border border-white/25 px-3 py-1.5">Ємності 1000 л</li>
+            <li class="rounded-full border border-white/25 px-3 py-1.5">Виїзд спеціаліста</li>
+          </ul>
+          <div class="flex flex-wrap gap-3">
+            <a class="btn btn-accent" href="/assortment/">
+              Обрати оливу
+            </a>
+            <a class="btn btn-on-primary" href="#lead">
+              Залишити заявку
+            </a>
+            <a class="btn btn-on-primary" href={site.phones[0].href}>
+              {site.phones[0].display}
+            </a>
+          </div>
         </div>
-      </div>
-      <div>
-        <HeroArt />
+        <div>
+          <HeroArt />
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="border-y border-line" aria-label="Бренди">
-    <ul class="wrap my-0 flex list-none flex-wrap items-center justify-around gap-x-10 gap-y-6 py-6">
+  <section class="wrap pt-4" aria-label="Бренди">
+    <ul class="m-0 grid list-none grid-cols-2 gap-3 p-0 sm:grid-cols-4">
       {brandLogos.map((b) => (
-        <li>
+        <li class="grid h-24 place-items-center rounded-card bg-white px-4">
           <Image
             src={assetImage(b.img)}
             alt={b.name}
             height={56}
             densities={[1, 2]}
             loading="lazy"
-            class="h-14 w-auto object-contain"
+            class="h-12 w-auto object-contain"
           />
         </li>
       ))}
@@ -94,11 +103,13 @@ const brandLogos = [
           <li>
             <a
               href={`/assortment/?type=${t}`}
-              class="flex h-full flex-col gap-1 rounded-card border border-line p-5.5 text-ink no-underline hover:border-primary hover:text-ink"
+              class="group flex h-full flex-col gap-1 rounded-card bg-white p-6 text-ink no-underline transition-colors hover:bg-primary hover:text-white"
             >
-              <span class="text-xl font-bold">{typeShort[t]}</span>
-              <span class="text-sm text-muted">{typeLabels[t]}</span>
-              <span class="mt-2 text-sm font-semibold text-primary">{counts[t]} позицій</span>
+              <span class="font-display text-xl font-bold">{typeShort[t]}</span>
+              <span class="text-sm text-muted group-hover:text-on-primary-soft">{typeLabels[t]}</span>
+              <span class="mt-3 w-fit rounded-full bg-accent px-2.5 py-0.5 text-sm font-semibold text-ink">
+                {counts[t]} позицій
+              </span>
             </a>
           </li>
         ))}
@@ -106,7 +117,7 @@ const brandLogos = [
     </div>
   </section>
 
-  <section class="section-pad bg-soft">
+  <section class="section-pad pt-0">
     <div class="wrap flex flex-col gap-5">
       <div class="flex flex-wrap items-baseline justify-between gap-3">
         <h2 class="section-title">Популярні товари</h2>
@@ -134,7 +145,7 @@ const brandLogos = [
       </div>
       <ul class="m-0 grid list-none grid-cols-[repeat(auto-fit,minmax(112px,1fr))] gap-3 p-0">
         {packs.map((p) => (
-          <li class="flex flex-col items-center justify-end gap-3 rounded-card border border-line bg-white px-2 pt-5 pb-4 text-center text-sm font-semibold">
+          <li class="flex flex-col items-center justify-end gap-3 rounded-card bg-white px-2 pt-5 pb-4 text-center text-sm font-semibold">
             <PackIcon kind={p.kind} label={p.label} />
           </li>
         ))}
@@ -142,7 +153,7 @@ const brandLogos = [
     </div>
   </section>
 
-  <section class="section-pad bg-soft" id="about">
+  <section class="section-pad pt-0" id="about">
     <div class="wrap grid grid-cols-[repeat(auto-fit,minmax(min(100%,380px),1fr))] items-center gap-10">
       <div class="flex flex-col gap-5">
         <h2 class="section-title">Про нас</h2>
@@ -160,7 +171,7 @@ const brandLogos = [
           <a href="/dovidka/">Як підібрати оливу — довідка →</a>
         </p>
       </div>
-      <div class="aspect-4/3 overflow-hidden rounded-card border border-line">
+      <div class="aspect-4/3 overflow-hidden rounded-panel bg-white">
         <iframe
           title={`Карта: TREOIL, ${site.address.city}, ${site.address.street}`}
           src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d6101.428664284915!2d28.42624796042512!3d49.23700397727064!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x472d5da73e9773dd%3A0xa89b208970bd654a!2z0KLRgNC10L7QudC7!5e0!3m2!1suk!2sua!4v1690721689427!5m2!1suk!2sua"

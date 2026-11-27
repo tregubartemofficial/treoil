@@ -107,7 +107,7 @@ const faq = [
 
     <div class="mt-2 flex flex-col gap-3">
       {guides.map((g) => (
-        <details id={g.id} class="group rounded-card border border-line bg-white open:border-line-strong">
+        <details id={g.id} class="group rounded-card bg-white">
           <summary class="flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 px-5 py-3.5 text-[17px] font-semibold [&::-webkit-details-marker]:hidden after:flex-none after:text-2xl after:leading-none after:text-primary after:content-['+'] group-open:after:content-['−']">
             {g.title}
           </summary>
@@ -123,7 +123,7 @@ const faq = [
     <h2 class="section-title mt-8">Часті питання</h2>
     <div class="mt-2 flex flex-col gap-3">
       {faq.map((f) => (
-        <details class="group rounded-card border border-line bg-white open:border-line-strong">
+        <details class="group rounded-card bg-white">
           <summary class="flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 px-5 py-3.5 text-[17px] font-semibold [&::-webkit-details-marker]:hidden after:flex-none after:text-2xl after:leading-none after:text-primary after:content-['+'] group-open:after:content-['−']">
             {f.q}
           </summary>
