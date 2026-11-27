@@ -1,4 +1,5 @@
 ---
+import { ctaLabel, features } from "../../data/features";
 import Breadcrumbs from "../../components/Breadcrumbs.astro";
 import Base from "../../layouts/Base.astro";
 import ProductCard from "../../components/ProductCard.astro";
@@ -101,7 +102,8 @@ const itemList = {
           ))}
         </ul>
         <p class="rounded-card bg-white p-6" hidden data-empty>
-          Нічого не знайдено. Скиньте фільтри або <a href="#lead">залиште заявку</a> — підберемо аналог.
+          Нічого не знайдено. Скиньте фільтри або{" "}
+          <a href="#lead">{features.leadForm ? "залиште заявку" : "зв'яжіться з нами"}</a> — підберемо аналог.
         </p>
       </div>
     </div>

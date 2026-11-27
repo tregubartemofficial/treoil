@@ -1,10 +1,10 @@
 ---
+import { ctaLabel, features } from "../data/features";
 import { Image } from "astro:assets";
 import Base from "../layouts/Base.astro";
 import ProductCard from "../components/ProductCard.astro";
 import LeadForm from "../components/LeadForm.astro";
 import PackIcon from "../components/PackIcon.astro";
-import HeroArt from "../components/HeroArt.astro";
 import Reviews from "../components/Reviews.astro";
 import { products, types, typeLabels, typeShort, assetImage } from "../data/catalog";
 import { site } from "../data/site";
@@ -39,8 +39,8 @@ const brandLogos = [
 <Base title={site.name} jsonLd={[localBusiness, webSite]}>
   <section class="px-2 pt-2 sm:px-4 sm:pt-4">
     <div class="overflow-hidden rounded-panel bg-primary text-white">
-      <div class="wrap grid grid-cols-[repeat(auto-fit,minmax(min(100%,380px),1fr))] items-center gap-8 py-[clamp(40px,7vw,80px)]">
-        <div class="flex flex-col gap-6">
+      <div class="wrap py-[clamp(48px,8vw,96px)]">
+        <div class="flex max-w-3xl flex-col gap-6">
           <p class="m-0 inline-flex w-fit items-center gap-2 rounded-full bg-white/15 px-3.5 py-1.5 text-sm font-medium">
             <span class="size-2 rounded-full bg-accent" aria-hidden="true"></span>
             Доставка Новою Поштою по всій Україні
@@ -53,26 +53,17 @@ const brandLogos = [
             {site.brands.join(", ")}. Підберемо під техніку, підготуємо пропозицію й привеземо на об'єкт у Вінниці або
             відправимо по Україні.
           </p>
-          <ul class="m-0 flex list-none flex-wrap gap-2 p-0 text-sm font-medium">
-            <li class="rounded-full border border-white/25 px-3 py-1.5">Каністри 4–20 л</li>
-            <li class="rounded-full border border-white/25 px-3 py-1.5">Бочки 210 л</li>
-            <li class="rounded-full border border-white/25 px-3 py-1.5">Ємності 1000 л</li>
-            <li class="rounded-full border border-white/25 px-3 py-1.5">Виїзд спеціаліста</li>
-          </ul>
           <div class="flex flex-wrap gap-3">
             <a class="btn btn-accent" href="/assortment/">
               Обрати оливу
             </a>
             <a class="btn btn-on-primary" href="#lead">
-              Залишити заявку
+              {ctaLabel}
             </a>
             <a class="btn btn-on-primary" href={site.phones[0].href}>
               {site.phones[0].display}
             </a>
           </div>
-        </div>
-        <div>
-          <HeroArt />
         </div>
       </div>
     </div>
@@ -134,8 +125,8 @@ const brandLogos = [
   </section>
 
   <section class="section-pad" id="delivery">
-    <div class="wrap grid grid-cols-[repeat(auto-fit,minmax(min(100%,380px),1fr))] items-center gap-10">
-      <div class="flex flex-col gap-5">
+    <div class="wrap flex flex-col gap-8">
+      <div class="flex max-w-3xl flex-col gap-5">
         <h2 class="section-title">Доставка та фасування</h2>
         <p class="lead">
           Відправляємо Новою Поштою в будь-яке місто України. У Вінниці та області привеземо безпосередньо на об'єкт. За
@@ -143,9 +134,9 @@ const brandLogos = [
         </p>
         <p class="lead">Оливу фасуємо в каністри 4, 10 і 20 літрів, бочки 210 літрів та ємності на 1000 літрів.</p>
       </div>
-      <ul class="m-0 grid list-none grid-cols-[repeat(auto-fit,minmax(112px,1fr))] gap-3 p-0">
+      <ul class="m-0 flex list-none flex-wrap justify-center gap-3 p-0">
         {packs.map((p) => (
-          <li class="flex flex-col items-center justify-end gap-3 rounded-card bg-white px-2 pt-5 pb-4 text-center text-sm font-semibold">
+          <li class="flex w-[calc(50%-6px)] flex-col items-center justify-end gap-3 rounded-card bg-white px-2 pt-6 pb-5 text-center text-sm font-semibold sm:w-[calc(33.333%-8px)] lg:w-auto lg:flex-1">
             <PackIcon kind={p.kind} label={p.label} />
           </li>
         ))}

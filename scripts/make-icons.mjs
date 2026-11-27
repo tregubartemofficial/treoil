@@ -9,7 +9,7 @@ const inner = mark.replace(/^<svg[^>]*>/, "").replace(/<\/svg>\s*$/, "");
 
 const icon = (size) =>
   Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 512 512">
-  <rect width="512" height="512" rx="96" fill="#1d3cff"/>
+  <rect width="512" height="512" rx="96" fill="#2343c9"/>
   <g transform="translate(106 118) scale(0.5)">${inner}</g></svg>`);
 
 await sharp(icon(180)).png().toFile("public/apple-touch-icon.png");
@@ -18,7 +18,7 @@ await sharp(icon(512)).png().toFile("public/icon-512.png");
 await sharp(icon(32)).resize(32, 32).toFile("public/favicon-32.png");
 
 const og = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630">
-  <rect width="1200" height="630" fill="#1d3cff"/>
+  <rect width="1200" height="630" fill="#2343c9"/>
   <rect y="560" width="1200" height="70" fill="#0a1033"/>
   <g transform="translate(80 90) scale(0.3)">${inner}</g>
   <text x="80" y="370" font-family="Helvetica, Arial, sans-serif" font-size="92" font-weight="700" fill="#fff">TREOIL</text>

@@ -1,4 +1,5 @@
 ---
+import { ctaLabel, features } from "../data/features";
 import { site } from "../data/site";
 const year = new Date().getFullYear();
 const link = "text-footer-link no-underline hover:text-white hover:underline";
@@ -49,7 +50,7 @@ const link = "text-footer-link no-underline hover:text-white hover:underline";
         </li>
         <li>
           <a class={link} href="/#lead">
-            Залишити заявку
+            {ctaLabel}
           </a>
         </li>
         <li>
